@@ -1,0 +1,8 @@
+.gitignore
+.vscode/
+/build/
+/nbproject/
+/vscode/
+.test/
+*.class
+*.log

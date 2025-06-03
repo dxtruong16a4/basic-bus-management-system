@@ -1,0 +1,885 @@
+package view;
+
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+
+import utility.AppTranslator;
+import utility.AppUtil;
+import utility.ComponentManager;
+import utility.DbConstants;
+import utility.tableloader.*;
+
+import dao.DAO;
+import model.BookingDetail;
+import controller.*;
+
+public class Manager extends javax.swing.JFrame {
+    private String currentAction = null;
+    private int lineCount = 0;
+
+    public static Manager instance = null;
+    private AppUtil appUtil = null;
+    private AppTranslator translator = null;
+    private ComponentManager componentManager = null;
+
+    // Controller
+    private BookingController bookingController = null;
+    private BookingDetailController bookingDetailController = null;
+    private BusController busController = null;
+    private BusOperatorController busOperatorController = null;
+    private FareController fareController = null; 
+    private RouteController routeController = null;
+    private ScheduleController scheduleController = null;
+    private SeatController seatController = null;
+
+    // Table Loader
+    private BookingTableLoader bookingTableLoader;
+    private BookingDetailTableLoader bookingDetailTableLoader;
+    private BusTableLoader busTableLoader;
+    private BusOperatorTableLoader busOperatorTableLoader;
+    private FareTableLoader fareTableLoader;
+    private RouteTableLoader routeTableLoader;
+    private ScheduleTableLoader scheduleTableLoader;
+    private SeatTableLoader seatTableLoader;
+
+    public static Manager getInstance() {
+        if (instance == null) {
+            instance = new Manager();
+        }
+        return instance;
+    }
+
+    public Manager() {
+        appUtil = AppUtil.getInstance();
+        translator = appUtil.getAppTranslator();
+        componentManager = ComponentManager.getInstance();
+        initComponents();
+        initController();
+        initTableLoader();        
+        loadCbMode();
+        setLocationRelativeTo(null);
+    }
+
+    private void initController() {
+        bookingController = BookingController.getInstance();
+        bookingDetailController = BookingDetailController.getInstance();
+        busController = BusController.getInstance();
+        busOperatorController = BusOperatorController.getInstance();
+        fareController = FareController.getInstance();
+        routeController = RouteController.getInstance();
+        scheduleController = ScheduleController.getInstance();
+        seatController = SeatController.getInstance();
+    }
+
+    private void initTableLoader() {
+        bookingTableLoader = new BookingTableLoader(bookingController, translator);
+        bookingDetailTableLoader = new BookingDetailTableLoader(bookingDetailController, translator);
+        busTableLoader = new BusTableLoader(busController, translator);
+        busOperatorTableLoader = new BusOperatorTableLoader(busOperatorController, translator);
+        fareTableLoader = new FareTableLoader(fareController, translator);
+        routeTableLoader = new RouteTableLoader(routeController, translator);
+        scheduleTableLoader = new ScheduleTableLoader(scheduleController, translator);
+        seatTableLoader = new SeatTableLoader(seatController, translator);
+    }
+
+    private void loadCbMode() {
+        List<String> currentDBMode = DAO.getAllTableNames();
+        List<String> hiddenDBMode = List.of(
+            DbConstants.HIDDEN1,
+            DbConstants.HIDDEN2,
+            DbConstants.HIDDEN3,
+            DbConstants.HIDDEN4
+        );
+        if (currentDBMode != null) {
+            currentDBMode.removeAll(hiddenDBMode);
+            if (currentDBMode.isEmpty()) {
+                System.out.println("No modes available.");
+                return;
+            }
+            cbMode.removeAllItems();
+            for (String mode : currentDBMode) {
+                String translatedMode = translator.translate("db.table." + mode);
+                cbMode.addItem(translatedMode);
+            }
+        } else {
+            System.out.println("No modes available.");
+        }
+    }
+
+    private void loadCbSearch(String mode) {
+        if (mode == null || mode.isEmpty()) {
+            System.out.println("No mode selected for search.");
+            return;
+        }
+        cbSearch.removeAllItems();
+        if (mode.equals(translator.translate("db.table.bookings"))) {
+            Map<String, String> searchOptions = bookingController.getColumnDataTypes();        
+            for (String columnName : searchOptions.keySet()) {
+                String translatedColumnName = translator.translate("booking.header." + columnName);
+                cbSearch.addItem(translatedColumnName);
+            }
+        } else if (mode.equals(translator.translate("db.table.booking_details"))) {
+            Map<String, String> searchOptions = bookingDetailController.getColumnDataTypes();        
+            for (String columnName : searchOptions.keySet()) {
+                String translatedColumnName = translator.translate("booking_detail.header." + columnName);
+                cbSearch.addItem(translatedColumnName);
+            }
+        } else if (mode.equals(translator.translate("db.table.buses"))) {
+            Map<String, String> searchOptions = busController.getColumnDataTypes();        
+            for (String columnName : searchOptions.keySet()) {
+                String translatedColumnName = translator.translate("bus.header." + columnName);
+                cbSearch.addItem(translatedColumnName);
+            }
+        } else if (mode.equals(translator.translate("db.table.bus_operators"))) {
+            Map<String, String> searchOptions = busOperatorController.getColumnDataTypes();        
+            for (String columnName : searchOptions.keySet()) {
+                String translatedColumnName = translator.translate("bus_operator.header." + columnName);
+                cbSearch.addItem(translatedColumnName);
+            }
+        } else if (mode.equals(translator.translate("db.table.routes"))) {
+            Map<String, String> searchOptions = routeController.getColumnDataTypes();        
+            for (String columnName : searchOptions.keySet()) {
+                String translatedColumnName = translator.translate("route.header." + columnName);
+                cbSearch.addItem(translatedColumnName);
+            }
+        } else if (mode.equals(translator.translate("db.table.schedules"))) {
+            Map<String, String> searchOptions = scheduleController.getColumnDataTypes();        
+            for (String columnName : searchOptions.keySet()) {
+                String translatedColumnName = translator.translate("schedule.header." + columnName);
+                cbSearch.addItem(translatedColumnName);
+            }
+        } else if (mode.equals(translator.translate("db.table.fares"))) {
+            Map<String, String> searchOptions = fareController.getColumnDataTypes();        
+            for (String columnName : searchOptions.keySet()) {
+                String translatedColumnName = translator.translate("fare.header." + columnName);
+                cbSearch.addItem(translatedColumnName);
+            }
+        } else if (mode.equals(translator.translate("db.table.seats"))) {
+            Map<String, String> searchOptions = seatController.getColumnDataTypes();        
+            for (String columnName : searchOptions.keySet()) {
+                String translatedColumnName = translator.translate("seat.header." + columnName);
+                cbSearch.addItem(translatedColumnName);
+            }
+        } else {
+            System.out.println("Search options not available for this mode: " + mode);
+        }
+    }
+
+    private void createInputPanel(String mode) {
+        if (mode == null || mode.isEmpty()) {
+            System.out.println("No mode selected for input panel.");
+            return;
+        }
+
+        lineCount = 0;
+        pnInput.removeAll();
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+
+        Map<String, String> columnTypes = null;
+        String headerPrefix = "";
+        String primaryKey = "";
+        Map<String, String[]> idComboBoxData = null;
+        if (mode.equals(translator.translate("db.table.bookings"))) {
+            columnTypes = bookingController.getColumnDataTypes();
+            headerPrefix = "booking.header.";
+            primaryKey = "booking_id";
+        } else if (mode.equals(translator.translate("db.table.booking_details"))) {
+            columnTypes = bookingDetailController.getColumnDataTypes();
+            headerPrefix = "booking_detail.header.";
+            primaryKey = "booking_detail_id";
+            idComboBoxData = new HashMap<>();
+            List<BookingDetail> all = bookingDetailController.getAllBookingDetails();
+            Set<String> bookingIds = new HashSet<>();
+            Set<String> seatIds = new HashSet<>();
+            for (BookingDetail bd : all) {
+                bookingIds.add(String.valueOf(bd.getBookingId()));
+                seatIds.add(String.valueOf(bd.getSeatId()));
+            }
+            idComboBoxData.put("Booking ID", bookingIds.toArray(new String[0]));
+            idComboBoxData.put("Seat ID", seatIds.toArray(new String[0]));
+        } else if (mode.equals(translator.translate("db.table.buses"))) {
+            columnTypes = busController.getColumnDataTypes();
+            headerPrefix = "bus.header.";
+            primaryKey = "bus_id";
+        } else if (mode.equals(translator.translate("db.table.bus_operators"))) {
+            columnTypes = busOperatorController.getColumnDataTypes();
+            headerPrefix = "bus_operator.header.";
+            primaryKey = "operator_id";
+        } else if (mode.equals(translator.translate("db.table.fares"))) {
+            columnTypes = fareController.getColumnDataTypes();
+            headerPrefix = "fare.header.";
+            primaryKey = "fare_id";
+        } else if (mode.equals(translator.translate("db.table.routes"))) {
+            columnTypes = routeController.getColumnDataTypes();
+            headerPrefix = "route.header.";
+            primaryKey = "route_id";
+        } else if (mode.equals(translator.translate("db.table.schedules"))) {
+            columnTypes = scheduleController.getColumnDataTypes();
+            headerPrefix = "schedule.header.";
+            primaryKey = "schedule_id";
+        } else if (mode.equals(translator.translate("db.table.seats"))) {
+            columnTypes = seatController.getColumnDataTypes();
+            headerPrefix = "seat.header.";
+            primaryKey = "seat_id";
+        } else {
+            System.out.println("Input panel not available for this mode: " + mode);
+            return;
+        }
+
+        lineCount = appUtil.addComponentsByDataTypes(pnInput, gbc, columnTypes, headerPrefix, idComboBoxData, primaryKey);
+    }
+
+    private void showInputPanel(boolean show) {
+        pnInput.setPreferredSize(new Dimension(700, lineCount * 40));
+        pnInput.setVisible(show);
+    }
+
+    private void setTableHeader(String mode) {
+        if (mode == null || mode.isEmpty()) {
+            return;
+        }
+        loadTable(mode);
+    }   
+
+    private void loadTable(String mode) {
+        tbDetail.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {},
+            new String [] {}
+        ));
+        if (mode == null || mode.isEmpty()) {
+            System.out.println("No mode selected for loading table.");
+            return;
+        }
+        if (mode.equals(translator.translate("db.table.bookings"))) {
+            bookingTableLoader.load(tbDetail);
+        } else if (mode.equals(translator.translate("db.table.booking_details"))) {
+            bookingDetailTableLoader.load(tbDetail);
+        } else if (mode.equals(translator.translate("db.table.buses"))) {
+            busTableLoader.load(tbDetail);
+        } else if (mode.equals(translator.translate("db.table.bus_operators"))) {
+            busOperatorTableLoader.load(tbDetail);
+        } else if (mode.equals(translator.translate("db.table.routes"))) {
+            routeTableLoader.load(tbDetail);
+        } else if (mode.equals(translator.translate("db.table.schedules"))) {
+            scheduleTableLoader.load(tbDetail);
+        } else if (mode.equals(translator.translate("db.table.fares"))) {
+            fareTableLoader.load(tbDetail);
+        } else if (mode.equals(translator.translate("db.table.seats"))) {
+            seatTableLoader.load(tbDetail);
+        } else {
+            System.out.println("Unknown mode: " + mode);
+        }
+    }
+
+    private Map<String, String> getColumnTypesByMode(String mode) {
+        if (mode.equals(translator.translate("db.table.bookings"))) {
+            return bookingController.getColumnDataTypes();
+        } else if (mode.equals(translator.translate("db.table.booking_details"))) {
+            return bookingDetailController.getColumnDataTypes();
+        } else if (mode.equals(translator.translate("db.table.buses"))) {
+            return busController.getColumnDataTypes();
+        } else if (mode.equals(translator.translate("db.table.bus_operators"))) {
+            return busOperatorController.getColumnDataTypes();
+        } else if (mode.equals(translator.translate("db.table.fares"))) {
+            return fareController.getColumnDataTypes();
+        } else if (mode.equals(translator.translate("db.table.routes"))) {
+            return routeController.getColumnDataTypes();
+        } else if (mode.equals(translator.translate("db.table.schedules"))) {
+            return scheduleController.getColumnDataTypes();
+        } else if (mode.equals(translator.translate("db.table.seats"))) {
+            return seatController.getColumnDataTypes();
+        }
+        return null;
+    }
+
+    private String getRealColumnKey(String columnName, String mode, Map<String, String> columnTypes) {
+        if (columnTypes == null) return columnName;
+        String keyPrefix = mode.toLowerCase().replace("db.table.", "").replace(" ", "_");
+        for (String key : columnTypes.keySet()) {
+            String display = translator.translate(keyPrefix + ".header." + key);
+            if (display.equals(columnName) || key.equalsIgnoreCase(columnName)) {
+                return key;
+            }
+        }
+        return columnName;
+    }
+
+    private void fillComponentValue(java.awt.Component comp, Object value, String realColumnKey) {
+        if (comp instanceof javax.swing.JTextField) {
+            ((javax.swing.JTextField) comp).setText(value != null ? value.toString() : "");
+        } else if (comp instanceof javax.swing.JComboBox) {
+            ((javax.swing.JComboBox<?>) comp).setSelectedItem(value);
+        } else if (comp instanceof javax.swing.JSpinner) {
+            if (value instanceof Number) {
+                ((javax.swing.JSpinner) comp).setValue(value);
+            } else {
+                try {
+                    ((javax.swing.JSpinner) comp).setValue(Double.parseDouble(value.toString()));
+                } catch (Exception ex) {}
+            }
+        } else if (comp instanceof javax.swing.JRadioButton) {
+            boolean selected = false;
+            if (value instanceof Boolean) selected = (Boolean) value;
+            else if (value != null) selected = value.toString().equalsIgnoreCase("true") || value.toString().equals("1");
+            JRadioButton trueBtn = (JRadioButton) componentManager.getComponentById(realColumnKey + "_true");
+            JRadioButton falseBtn = (JRadioButton) componentManager.getComponentById(realColumnKey + "_false");
+            if (trueBtn != null)
+            {trueBtn.setSelected(selected);}
+            if (falseBtn != null)
+            {falseBtn.setSelected(!selected);}
+        } else if (comp instanceof com.toedter.calendar.JDateChooser) {
+            try {
+                if (value != null && !value.toString().isEmpty()) {
+                    java.util.Date date = null;
+                    if (value instanceof java.util.Date) date = (java.util.Date) value;
+                    else {
+                        String v = value.toString();
+                        if (v.length() > 10) v = v.substring(0, 19);
+                        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(v.length() > 10 ? "yyyy-MM-dd HH:mm:ss" : "yyyy-MM-dd");
+                        date = sdf.parse(v);
+                    }
+                    ((com.toedter.calendar.JDateChooser) comp).setDate(date);
+                } else {
+                    ((com.toedter.calendar.JDateChooser) comp).setDate(null);
+                }
+            } catch (Exception ex) {}
+        }
+    }
+
+    private void loadDataBy(String searchBy, String searchValue) {
+        // Implement search logic here
+    }
+
+    private boolean insert() {
+        String mode = (String) cbMode.getSelectedItem();
+        if (mode == null || mode.isEmpty()) {
+            System.out.println("No mode selected for insertion.");
+            return false;
+        }
+        if (mode.equals(translator.translate("db.table.bookings"))) {
+            return bookingController.addBooking(appUtil.getInputData(pnInput, bookingController.getColumnDataTypes()));
+        }
+        return false;
+    }
+
+    private void update() {
+    }
+
+    private void delete() {
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        pnManager = new javax.swing.JScrollPane();
+        pnWorkspace = new javax.swing.JPanel();
+        pnManagerMode = new javax.swing.JPanel();
+        lbMode = new javax.swing.JLabel();
+        cbMode = new javax.swing.JComboBox<>();
+        pnSearch = new javax.swing.JPanel();
+        lbSearch = new javax.swing.JLabel();
+        cbSearch = new javax.swing.JComboBox<>();
+        tfSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        pnData = new javax.swing.JPanel();
+        pnAction = new javax.swing.JPanel();
+        btnLoad = new javax.swing.JButton();
+        btnInsert = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        pnInput = new javax.swing.JPanel();
+        pnTable = new javax.swing.JPanel();
+        spnTable = new javax.swing.JScrollPane();
+        tbDetail = new javax.swing.JTable();
+        pnPage = new javax.swing.JPanel();
+        btnPre5 = new javax.swing.JButton();
+        btnPre1 = new javax.swing.JButton();
+        lbPageId = new javax.swing.JLabel();
+        btnNext1 = new javax.swing.JButton();
+        btnNext5 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Manager");
+        setMaximumSize(new java.awt.Dimension(1920, 1080));
+        setMinimumSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(800, 600));
+        setResizable(false);
+        getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        pnManager.setMaximumSize(new java.awt.Dimension(1920, 1080));
+        pnManager.setMinimumSize(new java.awt.Dimension(780, 550));
+        pnManager.setPreferredSize(new java.awt.Dimension(780, 550));
+
+        pnWorkspace.setMinimumSize(new java.awt.Dimension(720, 702));
+        pnWorkspace.setLayout(new java.awt.GridBagLayout());
+
+        pnManagerMode.setMinimumSize(new java.awt.Dimension(700, 40));
+        pnManagerMode.setPreferredSize(new java.awt.Dimension(700, 40));
+        pnManagerMode.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 0));
+
+        lbMode.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lbMode.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbMode.setText("Manager:");
+        lbMode.setMaximumSize(new java.awt.Dimension(200, 32));
+        lbMode.setMinimumSize(new java.awt.Dimension(200, 32));
+        lbMode.setPreferredSize(new java.awt.Dimension(200, 32));
+        pnManagerMode.add(lbMode);
+
+        cbMode.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cbMode.setMaximumSize(new java.awt.Dimension(200, 40));
+        cbMode.setMinimumSize(new java.awt.Dimension(200, 40));
+        cbMode.setPreferredSize(new java.awt.Dimension(200, 40));
+        cbMode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbModeActionPerformed(evt);
+            }
+        });
+        pnManagerMode.add(cbMode);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        pnWorkspace.add(pnManagerMode, gridBagConstraints);
+
+        pnSearch.setPreferredSize(new java.awt.Dimension(720, 50));
+        pnSearch.setLayout(new java.awt.GridBagLayout());
+
+        lbSearch.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lbSearch.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbSearch.setText("Search by");
+        lbSearch.setMaximumSize(new java.awt.Dimension(100, 32));
+        lbSearch.setMinimumSize(new java.awt.Dimension(100, 32));
+        lbSearch.setName(""); // NOI18N
+        lbSearch.setPreferredSize(new java.awt.Dimension(100, 32));
+        pnSearch.add(lbSearch, new java.awt.GridBagConstraints());
+
+        cbSearch.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cbSearch.setMaximumSize(new java.awt.Dimension(120, 32));
+        cbSearch.setMinimumSize(new java.awt.Dimension(120, 32));
+        cbSearch.setPreferredSize(new java.awt.Dimension(120, 32));
+        cbSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSearchActionPerformed(evt);
+            }
+        });
+        pnSearch.add(cbSearch, new java.awt.GridBagConstraints());
+
+        tfSearch.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        tfSearch.setMaximumSize(new java.awt.Dimension(300, 32));
+        tfSearch.setMinimumSize(new java.awt.Dimension(300, 32));
+        tfSearch.setName(""); // NOI18N
+        tfSearch.setPreferredSize(new java.awt.Dimension(300, 32));
+        tfSearch.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfSearchFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfSearchFocusLost(evt);
+            }
+        });
+        pnSearch.add(tfSearch, new java.awt.GridBagConstraints());
+
+        btnSearch.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnSearch.setText("Search");
+        btnSearch.setMaximumSize(new java.awt.Dimension(100, 32));
+        btnSearch.setMinimumSize(new java.awt.Dimension(100, 32));
+        btnSearch.setPreferredSize(new java.awt.Dimension(100, 32));
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+        pnSearch.add(btnSearch, new java.awt.GridBagConstraints());
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        pnWorkspace.add(pnSearch, gridBagConstraints);
+
+        pnData.setMinimumSize(new java.awt.Dimension(700, 80));
+        pnData.setLayout(new java.awt.GridBagLayout());
+
+        pnAction.setMinimumSize(new java.awt.Dimension(700, 42));
+        pnAction.setPreferredSize(new java.awt.Dimension(700, 42));
+        pnAction.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 5));
+
+        btnLoad.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnLoad.setText("Load");
+        btnLoad.setMaximumSize(new java.awt.Dimension(100, 32));
+        btnLoad.setMinimumSize(new java.awt.Dimension(100, 32));
+        btnLoad.setPreferredSize(new java.awt.Dimension(100, 32));
+        btnLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadActionPerformed(evt);
+            }
+        });
+        pnAction.add(btnLoad);
+
+        btnInsert.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnInsert.setText("Insert");
+        btnInsert.setMaximumSize(new java.awt.Dimension(100, 32));
+        btnInsert.setMinimumSize(new java.awt.Dimension(100, 32));
+        btnInsert.setPreferredSize(new java.awt.Dimension(100, 32));
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
+        pnAction.add(btnInsert);
+
+        btnUpdate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnUpdate.setText("Update");
+        btnUpdate.setMaximumSize(new java.awt.Dimension(100, 32));
+        btnUpdate.setMinimumSize(new java.awt.Dimension(100, 32));
+        btnUpdate.setPreferredSize(new java.awt.Dimension(100, 32));
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+        pnAction.add(btnUpdate);
+
+        btnDelete.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnDelete.setText("Delete");
+        btnDelete.setMaximumSize(new java.awt.Dimension(100, 32));
+        btnDelete.setMinimumSize(new java.awt.Dimension(100, 32));
+        btnDelete.setPreferredSize(new java.awt.Dimension(100, 32));
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+        pnAction.add(btnDelete);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        pnData.add(pnAction, gridBagConstraints);
+
+        pnInput.setMinimumSize(new java.awt.Dimension(0, 0));
+        pnInput.setPreferredSize(new java.awt.Dimension(0, 0));
+        pnInput.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        pnData.add(pnInput, gridBagConstraints);
+
+        pnTable.setMinimumSize(new java.awt.Dimension(700, 10));
+
+        spnTable.setPreferredSize(new java.awt.Dimension(700, 270));
+
+        tbDetail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tbDetail.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1"
+            }
+        ));
+        tbDetail.setMinimumSize(new java.awt.Dimension(680, 240));
+        tbDetail.setPreferredSize(new java.awt.Dimension(680, 240));
+        tbDetail.setRowHeight(24);
+        tbDetail.setShowGrid(true);
+        tbDetail.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbDetailMouseClicked(evt);
+            }
+        });
+        spnTable.setViewportView(tbDetail);
+
+        pnTable.add(spnTable);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnData.add(pnTable, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        pnWorkspace.add(pnData, gridBagConstraints);
+
+        pnPage.setMaximumSize(new java.awt.Dimension(720, 50));
+        pnPage.setMinimumSize(new java.awt.Dimension(720, 50));
+        pnPage.setPreferredSize(new java.awt.Dimension(720, 50));
+        pnPage.setLayout(new java.awt.GridBagLayout());
+
+        btnPre5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pre5.png"))); // NOI18N
+        btnPre5.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        btnPre5.setMaximumSize(new java.awt.Dimension(32, 32));
+        btnPre5.setMinimumSize(new java.awt.Dimension(32, 32));
+        btnPre5.setPreferredSize(new java.awt.Dimension(32, 32));
+        btnPre5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPre5ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
+        pnPage.add(btnPre5, gridBagConstraints);
+
+        btnPre1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pre1.png"))); // NOI18N
+        btnPre1.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        btnPre1.setMaximumSize(new java.awt.Dimension(32, 32));
+        btnPre1.setMinimumSize(new java.awt.Dimension(32, 32));
+        btnPre1.setPreferredSize(new java.awt.Dimension(32, 32));
+        btnPre1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPre1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
+        pnPage.add(btnPre1, gridBagConstraints);
+
+        lbPageId.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lbPageId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbPageId.setText("0/0");
+        lbPageId.setMaximumSize(new java.awt.Dimension(100, 32));
+        lbPageId.setMinimumSize(new java.awt.Dimension(100, 32));
+        lbPageId.setPreferredSize(new java.awt.Dimension(100, 32));
+        pnPage.add(lbPageId, new java.awt.GridBagConstraints());
+
+        btnNext1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/next1.png"))); // NOI18N
+        btnNext1.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        btnNext1.setMaximumSize(new java.awt.Dimension(32, 32));
+        btnNext1.setMinimumSize(new java.awt.Dimension(32, 32));
+        btnNext1.setPreferredSize(new java.awt.Dimension(32, 32));
+        btnNext1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNext1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
+        pnPage.add(btnNext1, gridBagConstraints);
+
+        btnNext5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/next5.png"))); // NOI18N
+        btnNext5.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        btnNext5.setMaximumSize(new java.awt.Dimension(32, 32));
+        btnNext5.setMinimumSize(new java.awt.Dimension(32, 32));
+        btnNext5.setPreferredSize(new java.awt.Dimension(32, 32));
+        btnNext5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNext5ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
+        pnPage.add(btnNext5, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        pnWorkspace.add(pnPage, gridBagConstraints);
+
+        pnManager.setViewportView(pnWorkspace);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        getContentPane().add(pnManager, gridBagConstraints);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void cbModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbModeActionPerformed
+        String selectedMode = (String) cbMode.getSelectedItem();
+        if (selectedMode != null && !selectedMode.isEmpty()) {
+            setTableHeader(selectedMode);
+            showInputPanel(false);
+            loadCbSearch(selectedMode);
+            createInputPanel(selectedMode);
+            currentAction = null;
+        } else {
+            System.out.println("No mode selected.");
+        }
+    }//GEN-LAST:event_cbModeActionPerformed
+
+    private void cbSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbSearchActionPerformed
+
+    private void tfSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfSearchFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfSearchFocusGained
+
+    private void tfSearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfSearchFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfSearchFocusLost
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        showInputPanel(false);
+        currentAction = null;
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
+        
+    }//GEN-LAST:event_btnLoadActionPerformed
+
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        if ("insert".equals(currentAction)) {
+            showInputPanel(false);
+            currentAction = null;
+            if (insert()) {
+                JOptionPane.showMessageDialog(this, translator.translate("message.insert.success"), translator.translate("message.title.success"), JOptionPane.INFORMATION_MESSAGE);
+                loadTable((String) cbMode.getSelectedItem());
+            } else {
+                JOptionPane.showMessageDialog(this, translator.translate("message.insert.failure"), translator.translate("message.title.failure"), JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            showInputPanel(true);
+            currentAction = "insert";
+        }
+    }//GEN-LAST:event_btnInsertActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        if ("update".equals(currentAction)) {
+            System.out.println("Update!");
+            showInputPanel(false);
+            currentAction = null;
+        } else {
+            showInputPanel(true);
+            currentAction = "update";
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if ("delete".equals(currentAction)) {
+            System.out.println("Delete!");
+            showInputPanel(false);
+            currentAction = null;
+        } else {
+            showInputPanel(true);
+            currentAction = "delete";
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void tbDetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDetailMouseClicked
+        int selectedRow = tbDetail.getSelectedRow();
+        if (selectedRow < 0) {
+            System.out.println("No row selected for editing.");
+            return;
+        }
+        String mode = (String) cbMode.getSelectedItem();
+        if (mode == null || mode.isEmpty()) {
+            System.out.println("No mode selected for editing.");
+            return;
+        }
+        showInputPanel(true);
+        currentAction = "update";
+        javax.swing.table.TableModel model = tbDetail.getModel();
+        Map<String, String> columnTypes = getColumnTypesByMode(mode);
+        for (int col = 0; col < model.getColumnCount(); col++) {
+            String columnName = model.getColumnName(col);
+            Object value = model.getValueAt(selectedRow, col);
+            String realColumnKey = getRealColumnKey(columnName, mode, columnTypes);
+            java.awt.Component comp = componentManager.getComponentById(realColumnKey);
+            if (comp != null) fillComponentValue(comp, value, realColumnKey);
+        }
+    }//GEN-LAST:event_tbDetailMouseClicked
+
+    private void btnPre5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPre5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPre5ActionPerformed
+
+    private void btnPre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPre1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPre1ActionPerformed
+
+    private void btnNext1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNext1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNext1ActionPerformed
+
+    private void btnNext5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNext5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNext5ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Manager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Manager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Manager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Manager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Manager().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnInsert;
+    private javax.swing.JButton btnLoad;
+    private javax.swing.JButton btnNext1;
+    private javax.swing.JButton btnNext5;
+    private javax.swing.JButton btnPre1;
+    private javax.swing.JButton btnPre5;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cbMode;
+    private javax.swing.JComboBox<String> cbSearch;
+    private javax.swing.JLabel lbMode;
+    private javax.swing.JLabel lbPageId;
+    private javax.swing.JLabel lbSearch;
+    private javax.swing.JPanel pnAction;
+    private javax.swing.JPanel pnData;
+    private javax.swing.JPanel pnInput;
+    private javax.swing.JScrollPane pnManager;
+    private javax.swing.JPanel pnManagerMode;
+    private javax.swing.JPanel pnPage;
+    private javax.swing.JPanel pnSearch;
+    private javax.swing.JPanel pnTable;
+    private javax.swing.JPanel pnWorkspace;
+    private javax.swing.JScrollPane spnTable;
+    private javax.swing.JTable tbDetail;
+    private javax.swing.JTextField tfSearch;
+    // End of variables declaration//GEN-END:variables
+}
