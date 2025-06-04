@@ -3,6 +3,6 @@
 /build/
 /nbproject/
 /vscode/
-.test/
+/test/
 *.class
 *.log
