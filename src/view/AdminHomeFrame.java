@@ -36,7 +36,13 @@ public class AdminHomeFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Bus Manager - Administrator");
-        setMinimumSize(new java.awt.Dimension(400, 600));
+        setMinimumSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(800, 600));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         pnWelcome.setMaximumSize(new java.awt.Dimension(312, 36));
@@ -56,9 +62,9 @@ public class AdminHomeFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         getContentPane().add(pnWelcome, gridBagConstraints);
 
-        pnBody.setMaximumSize(new java.awt.Dimension(400, 500));
-        pnBody.setMinimumSize(new java.awt.Dimension(400, 500));
-        pnBody.setPreferredSize(new java.awt.Dimension(400, 500));
+        pnBody.setMaximumSize(new java.awt.Dimension(400, 400));
+        pnBody.setMinimumSize(new java.awt.Dimension(400, 400));
+        pnBody.setPreferredSize(new java.awt.Dimension(400, 400));
         pnBody.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 20));
 
         btnManager.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -135,6 +141,21 @@ public class AdminHomeFrame extends javax.swing.JFrame {
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
         
     }//GEN-LAST:event_btnLogOutActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            Manager mng = Manager.getInstance();
+            if (mng != null) {
+                mng.dispose();
+            }
+            UserHomeFrame userHomeFrame = UserHomeFrame.getInstance();
+            if (userHomeFrame != null) {
+                userHomeFrame.dispose();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

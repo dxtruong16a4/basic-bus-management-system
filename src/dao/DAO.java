@@ -12,7 +12,7 @@ public class DAO {
     public static Connection con;
 
     static {
-        DbConnect dbConnect = new DbConnect();
+        DbConnect dbConnect = DbConnect.getInstance();
         con = dbConnect.getConnection();
     }
 

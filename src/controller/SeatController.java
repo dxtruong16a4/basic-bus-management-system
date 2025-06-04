@@ -21,7 +21,7 @@ public class SeatController {
     }
     
     private SeatController() {
-        dbConnect = new DbConnect();
+        dbConnect = DbConnect.getInstance();
         seatDAO = new SeatDAO(dbConnect);
     }
 
@@ -90,5 +90,9 @@ public class SeatController {
             (String) data.get("seat_number"),
             data.get("is_active") instanceof Boolean ? (Boolean) data.get("is_active") : Boolean.parseBoolean(data.get("is_active").toString())
         );
+    }
+
+    public DbConnect getDbConnect() {
+        return dbConnect;
     }
 }

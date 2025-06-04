@@ -21,7 +21,7 @@ public class BusOperatorController {
     }
     
     private BusOperatorController() {
-        dbConnect = new DbConnect();
+        dbConnect = DbConnect.getInstance();
         busOperatorDAO = new BusOperatorDAO(dbConnect);
     }
     
@@ -97,7 +97,6 @@ public class BusOperatorController {
                 joinedDate = null;
             }
         }
-        // Xử lý BigDecimal cho rating
         java.math.BigDecimal rating = null;
         Object ratingObj = data.get("rating");
         if (ratingObj instanceof java.math.BigDecimal) {
@@ -121,5 +120,9 @@ public class BusOperatorController {
             rating,
             joinedDate
         );
+    }
+
+    public DbConnect getDbConnect() {
+        return dbConnect;
     }
 }

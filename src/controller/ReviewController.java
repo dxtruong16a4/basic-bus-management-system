@@ -21,7 +21,7 @@ public class ReviewController {
     }
     
     private ReviewController() {
-        dbConnect = new DbConnect();
+        dbConnect = DbConnect.getInstance();
         reviewDAO = new ReviewDAO(dbConnect);
     }
 
@@ -78,5 +78,9 @@ public class ReviewController {
             e.printStackTrace();
             return Map.of();
         }
+    }
+    
+    public DbConnect getDbConnect() {
+        return dbConnect;
     }
 }

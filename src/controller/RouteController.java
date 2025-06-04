@@ -21,7 +21,7 @@ public class RouteController {
     }
     
     private RouteController() {
-        dbConnect = new DbConnect();
+        dbConnect = DbConnect.getInstance();
         routeDAO = new RouteDAO(dbConnect);
     }
 
@@ -100,5 +100,9 @@ public class RouteController {
             distance,
             (int) data.get("estimated_duration")
         );
+    }
+
+    public DbConnect getDbConnect() {
+        return dbConnect;
     }
 }

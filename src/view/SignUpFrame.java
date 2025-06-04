@@ -392,11 +392,6 @@ public class SignUpFrame extends javax.swing.JFrame {
     private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
         String user = tfUser.getText().trim();
         String pass = String.valueOf(tfPass.getPassword()).trim();
-        // String firstName = tfFirstName.getText().trim();
-        // String lastName = tfLastName.getText().trim();
-        // String dob = (dateChooser.getDate() != null) ?
-        //         new java.text.SimpleDateFormat("yyyy-MM-dd").format(dateChooser.getDate()) : "";
-        // String phone = tfPhone.getText().trim();
         String email = tfEmail.getText().trim();
         String role = "user";
         if (!isUserOK || !isPassOK) {

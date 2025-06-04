@@ -21,7 +21,7 @@ public class ScheduleController {
     }
     
     private ScheduleController() {
-        dbConnect = new DbConnect();
+        dbConnect = DbConnect.getInstance();
         scheduleDAO = new ScheduleDAO(dbConnect);
     }
 
@@ -119,5 +119,9 @@ public class ScheduleController {
             data.get("is_active") instanceof Boolean ? (Boolean) data.get("is_active") : Boolean.parseBoolean(data.get("is_active").toString()),
             createdDate
         );
+    }
+
+    public DbConnect getDbConnect() {
+        return dbConnect;
     }
 }

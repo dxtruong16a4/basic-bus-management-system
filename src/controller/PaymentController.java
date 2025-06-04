@@ -21,7 +21,7 @@ public class PaymentController {
     }
     
     private PaymentController() {
-        dbConnect = new DbConnect();
+        dbConnect = DbConnect.getInstance();
         paymentDAO = new PaymentDAO(dbConnect);
     }
 
@@ -78,5 +78,9 @@ public class PaymentController {
             e.printStackTrace();
             return Map.of();
         }
+    }
+
+    public DbConnect getDbConnect() {
+        return dbConnect;
     }
 }

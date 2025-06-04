@@ -1,6 +1,5 @@
 package utility;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,8 +42,12 @@ public class UserManager {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            DbConnect db = new DbConnect();
+            DbConnect db = DbConnect.getInstance();
             con = db.getConnection();
+            if (con == null || con.isClosed()) {
+                System.err.println("Database connection is not available.");
+                return false;
+            }
             password = AESUtil.encrypt(password);
             String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
             ps = con.prepareStatement(sql);
@@ -75,7 +78,6 @@ public class UserManager {
         } finally {
             try { if (rs != null) rs.close(); } catch (Exception ignored) {}
             try { if (ps != null) ps.close(); } catch (Exception ignored) {}
-            try { if (con != null) con.close(); } catch (Exception ignored) {}
         }
     }
 

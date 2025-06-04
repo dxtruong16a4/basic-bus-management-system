@@ -10,9 +10,17 @@ import static utility.DbConstants.DB_USER;
 import static utility.DbConstants.DB_PASSWORD;
 
 public class DbConnect {
-    private Connection con;
+    public static DbConnect instance = null;
+    private Connection con = null;
+
+    public static DbConnect getInstance() {
+        if (instance == null) {
+            instance = new DbConnect();
+        }
+        return instance;
+    }
     
-    public DbConnect() {
+    private DbConnect() {
         try {
             Class.forName(DB_DRIVER);
             this.con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
@@ -33,5 +41,9 @@ public class DbConnect {
         if (this.con != null) {
             this.con.close();
         }
+    }
+    
+    public static void main(String[] args) {
+        DbConnect dbc =  DbConnect.getInstance();
     }
 }

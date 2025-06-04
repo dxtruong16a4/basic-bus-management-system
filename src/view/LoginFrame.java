@@ -1,16 +1,17 @@
 package view;
 
 import java.util.Locale;
-import java.util.ResourceBundle;
 
+import utility.AppTranslator;
+import utility.DbConnect;
 import utility.UserManager;
 
 public class LoginFrame extends javax.swing.JFrame {
-    ResourceBundle bundle;
+    AppTranslator translator = null;
     private SignUpFrame signUpFrame = null;
 
     public LoginFrame() {
-        bundle = ResourceBundle.getBundle("messages", Locale.ENGLISH);
+        translator = AppTranslator.getInstance(Locale.getDefault());
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -160,18 +161,19 @@ public class LoginFrame extends javax.swing.JFrame {
         String username = tfUser.getText().trim();
         String password = new String(tfPass.getPassword()).trim();
         if (username.isEmpty() || password.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this, bundle.getString("login.error.invalid"), bundle.getString("login.error.title"), javax.swing.JOptionPane.ERROR_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(this, translator.translate("login.error.invalid"),
+                translator.translate("login.error.title"), javax.swing.JOptionPane.ERROR_MESSAGE);
             return;
         }
         if (utility.Authentication.login(username, password)) {      
             UserManager userManager = UserManager.getInstance();
             userManager.login(username, password);
-            if (userManager.getCurrentUser().getRole().equals("admin")) {
+            if (userManager.getCurrentUser() != null && userManager.getCurrentUser().getRole().equals("admin")) {
                 AdminHomeFrame adminHomeFrame = AdminHomeFrame.getInstance();
                 if (adminHomeFrame != null) {
                     adminHomeFrame.setVisible(true);
                 }
-            } else {
+            } else if (userManager.getCurrentUser() != null) {
                 UserHomeFrame userHomeFrame = UserHomeFrame.getInstance();
                 if (userHomeFrame != null) {
                     userHomeFrame.setVisible(true);
@@ -179,7 +181,8 @@ public class LoginFrame extends javax.swing.JFrame {
             }
             this.dispose();
         } else {
-            javax.swing.JOptionPane.showMessageDialog(this, bundle.getString("login.invalid"), bundle.getString("login.error.title"), javax.swing.JOptionPane.ERROR_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(this, translator.translate("login.invalid"),
+                translator.translate("login.error.title"), javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -224,13 +227,24 @@ public class LoginFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginFrame().setVisible(true);
-            }
-        });
+        
+        try {
+            DbConnect.getInstance();
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    new LoginFrame().setVisible(true);
+                }
+            });
+        } catch (RuntimeException ex) {
+            AppTranslator translator = AppTranslator.getInstance(Locale.ENGLISH);
+            javax.swing.JOptionPane.showMessageDialog(
+                null,
+                translator.translate("db.connection.error"),
+                "db.connection.title_error", 
+                javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+            System.exit(1);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -22,7 +22,7 @@ public class BusController {
     }
     
     private BusController() {
-        dbConnect = new DbConnect();
+        dbConnect = DbConnect.getInstance();
         busDAO = new BusDAO(dbConnect);
     }
 
@@ -95,5 +95,9 @@ public class BusController {
             (String) data.get("registration_number"),
             data.get("is_active") instanceof Boolean ? (Boolean) data.get("is_active") : Boolean.parseBoolean(data.get("is_active").toString())
         );
+    }
+
+    public DbConnect getDbConnect() {
+        return dbConnect;
     }
 }

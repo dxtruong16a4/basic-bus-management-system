@@ -490,6 +490,11 @@ public class Manager extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         pnManager.setMaximumSize(new java.awt.Dimension(1920, 1080));
@@ -892,6 +897,22 @@ public class Manager extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnNext5ActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // close all controllers
+        try {
+            if (bookingController != null) bookingController.getDbConnect().Close();
+            if (bookingDetailController != null) bookingDetailController.getDbConnect().Close();
+            if (busController != null) busController.getDbConnect().Close();
+            if (busOperatorController != null) busOperatorController.getDbConnect().Close();
+            if (fareController != null) fareController.getDbConnect().Close();
+            if (routeController != null) routeController.getDbConnect().Close();
+            if (scheduleController != null) scheduleController.getDbConnect().Close();
+            if (seatController != null) seatController.getDbConnect().Close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -923,7 +944,7 @@ public class Manager extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Manager().setVisible(true);
+            //    new Manager().setVisible(true);
             }
         });
     }

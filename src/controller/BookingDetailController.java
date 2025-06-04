@@ -21,7 +21,7 @@ public class BookingDetailController {
     }
     
     private BookingDetailController() {
-        dbConnect = new DbConnect();
+        dbConnect = DbConnect.getInstance();
         bookingDetailDAO = new BookingDetailDAO(dbConnect);
     }
 
@@ -103,5 +103,9 @@ public class BookingDetailController {
             data.get("fare") instanceof Number ? ((Number) data.get("fare")).doubleValue() : Double.parseDouble(data.get("fare").toString()),
             (String) data.get("seat_number")
         );
+    }
+
+    public DbConnect getDbConnect() {
+        return dbConnect;
     }
 }

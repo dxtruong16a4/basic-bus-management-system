@@ -21,7 +21,7 @@ public class FareController {
     }
     
     private FareController() {
-        dbConnect = new DbConnect();
+        dbConnect = DbConnect.getInstance();
         fareDAO = new FareDAO(dbConnect);
     }
 
@@ -127,5 +127,9 @@ public class FareController {
             serviceCharge,
             lastUpdated
         );
+    }
+
+    public DbConnect getDbConnect() {
+        return dbConnect;
     }
 }

@@ -1,10 +1,8 @@
 package controller;
 
 import java.util.List;
-import java.util.Map;
 
 import dao.UserDAO;
-import dao.DAO;
 import model.User;
 import utility.DbConnect;
 
@@ -21,7 +19,7 @@ public class UserController {
     }
     
     private UserController() {
-        dbConnect = new DbConnect();
+        dbConnect = DbConnect.getInstance();
         userDAO = new UserDAO(dbConnect);
     }
 
@@ -69,6 +67,10 @@ public class UserController {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public DbConnect getDbConnect() {
+        return dbConnect;
     }
 
     // public Map<String, String> getColumnDataTypes() {

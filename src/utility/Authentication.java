@@ -11,7 +11,7 @@ public class Authentication {
         try {
             if (userExists(username)) return false;
             String encryptedPass = AESUtil.encrypt(password);
-            DbConnect db = new DbConnect();
+            DbConnect db = DbConnect.getInstance();
             con = db.getConnection();
             String sql = "INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)";
             ps = con.prepareStatement(sql);
@@ -35,7 +35,7 @@ public class Authentication {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            DbConnect db = new DbConnect();
+            DbConnect db = DbConnect.getInstance();
             con = db.getConnection();
             String sql = "SELECT password FROM users WHERE username = ?";
             ps = con.prepareStatement(sql);
@@ -53,7 +53,6 @@ public class Authentication {
         } finally {
             try { if (rs != null) rs.close(); } catch (Exception ignored) {}
             try { if (ps != null) ps.close(); } catch (Exception ignored) {}
-            try { if (con != null) con.close(); } catch (Exception ignored) {}
         }
     }
 
@@ -62,7 +61,7 @@ public class Authentication {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            DbConnect db = new DbConnect();
+            DbConnect db = DbConnect.getInstance();
             con = db.getConnection();
             String sql = "SELECT username FROM users WHERE username = ?";
             ps = con.prepareStatement(sql);
@@ -75,7 +74,6 @@ public class Authentication {
         } finally {
             try { if (rs != null) rs.close(); } catch (Exception ignored) {}
             try { if (ps != null) ps.close(); } catch (Exception ignored) {}
-            try { if (con != null) con.close(); } catch (Exception ignored) {}
         }
     }
 }

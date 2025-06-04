@@ -42,17 +42,19 @@ public class UserHomeFrame extends javax.swing.JFrame {
 
         pnApp = new javax.swing.JPanel();
         pnHome = new javax.swing.JPanel();
+        pnAppNotifications = new javax.swing.JPanel();
+        lbAppNotifications = new javax.swing.JLabel();
+        pnUser = new javax.swing.JPanel();
         lbHomeWelcome = new javax.swing.JLabel();
         lbAddPhotoProfile = new javax.swing.JLabel();
         lbEditProfile = new javax.swing.JLabel();
-        pnAppNotifications = new javax.swing.JPanel();
-        lbAppNotifications = new javax.swing.JLabel();
-        pnHomeHolder = new javax.swing.JPanel();
+        pnAction = new javax.swing.JPanel();
         btnSearchRoute = new javax.swing.JButton();
         btnBookTicket = new javax.swing.JButton();
         btnViewRoute = new javax.swing.JButton();
         btnBookingHistory = new javax.swing.JButton();
         btnLogOut = new javax.swing.JButton();
+        pnHomeHolder = new javax.swing.JPanel();
         pnNotifications = new javax.swing.JPanel();
         lbUserNotifications = new javax.swing.JLabel();
         pnNotifCategory = new javax.swing.JPanel();
@@ -61,7 +63,7 @@ public class UserHomeFrame extends javax.swing.JFrame {
         pnNotifDetail = new javax.swing.JPanel();
         pnSettings = new javax.swing.JPanel();
         lbAppSettings = new javax.swing.JLabel();
-        pnSettingsHolder = new javax.swing.JPanel();
+        pnSettingButtons = new javax.swing.JPanel();
         btnAccSetting = new javax.swing.JButton();
         btnNotifSetting = new javax.swing.JButton();
         btnTravelPreSetting = new javax.swing.JButton();
@@ -77,71 +79,32 @@ public class UserHomeFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Bus Ticket Booking App");
         setForeground(java.awt.Color.white);
-        setMinimumSize(new java.awt.Dimension(400, 600));
+        setMinimumSize(new java.awt.Dimension(1280, 720));
         setResizable(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         pnApp.setBackground(new java.awt.Color(150, 188, 255));
         pnApp.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        pnApp.setMaximumSize(new java.awt.Dimension(390, 520));
-        pnApp.setMinimumSize(new java.awt.Dimension(390, 520));
-        pnApp.setPreferredSize(new java.awt.Dimension(390, 520));
+        pnApp.setMaximumSize(new java.awt.Dimension(1260, 640));
+        pnApp.setMinimumSize(new java.awt.Dimension(1260, 640));
+        pnApp.setPreferredSize(new java.awt.Dimension(1260, 640));
         pnApp.setLayout(new java.awt.CardLayout(2, 2));
 
-        pnHome.setMaximumSize(new java.awt.Dimension(390, 520));
-        pnHome.setMinimumSize(new java.awt.Dimension(390, 520));
-        pnHome.setPreferredSize(new java.awt.Dimension(390, 520));
+        pnHome.setMaximumSize(new java.awt.Dimension(1200, 600));
+        pnHome.setMinimumSize(new java.awt.Dimension(1200, 600));
+        pnHome.setPreferredSize(new java.awt.Dimension(1200, 600));
         pnHome.setLayout(new java.awt.GridBagLayout());
 
-        lbHomeWelcome.setBackground(new java.awt.Color(255, 255, 255));
-        lbHomeWelcome.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        lbHomeWelcome.setForeground(new java.awt.Color(15, 45, 255));
-        lbHomeWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbHomeWelcome.setText("Welcome, user!");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        pnHome.add(lbHomeWelcome, gridBagConstraints);
+        pnAppNotifications.setMaximumSize(new java.awt.Dimension(1200, 60));
+        pnAppNotifications.setMinimumSize(new java.awt.Dimension(1200, 60));
+        pnAppNotifications.setPreferredSize(new java.awt.Dimension(1200, 60));
+        pnAppNotifications.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 0));
 
-        lbAddPhotoProfile.setBackground(new java.awt.Color(255, 255, 255));
-        lbAddPhotoProfile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbAddPhotoProfile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_photo.png"))); // NOI18N
-        lbAddPhotoProfile.setText("Add photo");
-        lbAddPhotoProfile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbAddPhotoProfile.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbAddPhotoProfileMouseClicked(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
-        pnHome.add(lbAddPhotoProfile, gridBagConstraints);
-
-        lbEditProfile.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lbEditProfile.setText("Edit profile");
-        lbEditProfile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbEditProfile.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbEditProfileMouseClicked(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        pnHome.add(lbEditProfile, gridBagConstraints);
-
-        pnAppNotifications.setMaximumSize(new java.awt.Dimension(380, 32));
-        pnAppNotifications.setMinimumSize(new java.awt.Dimension(380, 32));
-        pnAppNotifications.setPreferredSize(new java.awt.Dimension(380, 32));
-
-        lbAppNotifications.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        lbAppNotifications.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbAppNotifications.setText("Notification");
-        lbAppNotifications.setMaximumSize(new java.awt.Dimension(360, 30));
-        lbAppNotifications.setMinimumSize(new java.awt.Dimension(360, 30));
-        lbAppNotifications.setPreferredSize(new java.awt.Dimension(360, 30));
+        lbAppNotifications.setMaximumSize(new java.awt.Dimension(1100, 60));
+        lbAppNotifications.setMinimumSize(new java.awt.Dimension(1100, 60));
+        lbAppNotifications.setPreferredSize(new java.awt.Dimension(1100, 60));
         pnAppNotifications.add(lbAppNotifications);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -151,20 +114,77 @@ public class UserHomeFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 1);
         pnHome.add(pnAppNotifications, gridBagConstraints);
 
-        pnHomeHolder.setMinimumSize(new java.awt.Dimension(380, 200));
-        pnHomeHolder.setPreferredSize(new java.awt.Dimension(380, 200));
+        pnUser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnUser.setMinimumSize(new java.awt.Dimension(300, 300));
+        pnUser.setPreferredSize(new java.awt.Dimension(300, 300));
+        pnUser.setLayout(new java.awt.GridBagLayout());
+
+        lbHomeWelcome.setBackground(new java.awt.Color(255, 255, 255));
+        lbHomeWelcome.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        lbHomeWelcome.setForeground(new java.awt.Color(15, 45, 255));
+        lbHomeWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbHomeWelcome.setText("Welcome, user!");
+        lbHomeWelcome.setMaximumSize(new java.awt.Dimension(300, 48));
+        lbHomeWelcome.setMinimumSize(new java.awt.Dimension(300, 48));
+        lbHomeWelcome.setPreferredSize(new java.awt.Dimension(300, 48));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 2;
-        pnHome.add(pnHomeHolder, gridBagConstraints);
+        gridBagConstraints.gridy = 0;
+        pnUser.add(lbHomeWelcome, gridBagConstraints);
+
+        lbAddPhotoProfile.setBackground(new java.awt.Color(255, 255, 255));
+        lbAddPhotoProfile.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lbAddPhotoProfile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbAddPhotoProfile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_photo.png"))); // NOI18N
+        lbAddPhotoProfile.setText("Add photo");
+        lbAddPhotoProfile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbAddPhotoProfile.setMaximumSize(new java.awt.Dimension(150, 150));
+        lbAddPhotoProfile.setMinimumSize(new java.awt.Dimension(150, 150));
+        lbAddPhotoProfile.setPreferredSize(new java.awt.Dimension(150, 150));
+        lbAddPhotoProfile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbAddPhotoProfileMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 20, 20);
+        pnUser.add(lbAddPhotoProfile, gridBagConstraints);
+
+        lbEditProfile.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbEditProfile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbEditProfile.setText("Edit profile");
+        lbEditProfile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbEditProfile.setMaximumSize(new java.awt.Dimension(100, 32));
+        lbEditProfile.setMinimumSize(new java.awt.Dimension(100, 32));
+        lbEditProfile.setPreferredSize(new java.awt.Dimension(100, 32));
+        lbEditProfile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbEditProfileMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        pnUser.add(lbEditProfile, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        pnHome.add(pnUser, gridBagConstraints);
+
+        pnAction.setMinimumSize(new java.awt.Dimension(600, 300));
+        pnAction.setPreferredSize(new java.awt.Dimension(600, 300));
+        pnAction.setLayout(new java.awt.GridBagLayout());
 
         btnSearchRoute.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSearchRoute.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search.png"))); // NOI18N
         btnSearchRoute.setText("Search Route");
-        btnSearchRoute.setMaximumSize(new java.awt.Dimension(160, 27));
-        btnSearchRoute.setMinimumSize(new java.awt.Dimension(160, 27));
-        btnSearchRoute.setPreferredSize(new java.awt.Dimension(160, 27));
+        btnSearchRoute.setMaximumSize(new java.awt.Dimension(160, 80));
+        btnSearchRoute.setMinimumSize(new java.awt.Dimension(160, 80));
+        btnSearchRoute.setPreferredSize(new java.awt.Dimension(160, 80));
         btnSearchRoute.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSearchRouteActionPerformed(evt);
@@ -172,32 +192,33 @@ public class UserHomeFrame extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        pnHome.add(btnSearchRoute, gridBagConstraints);
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        pnAction.add(btnSearchRoute, gridBagConstraints);
 
         btnBookTicket.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBookTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/book_ticket.png"))); // NOI18N
         btnBookTicket.setText("Book Ticket");
-        btnBookTicket.setMaximumSize(new java.awt.Dimension(160, 27));
-        btnBookTicket.setMinimumSize(new java.awt.Dimension(160, 27));
-        btnBookTicket.setPreferredSize(new java.awt.Dimension(160, 27));
+        btnBookTicket.setMaximumSize(new java.awt.Dimension(160, 80));
+        btnBookTicket.setMinimumSize(new java.awt.Dimension(160, 80));
+        btnBookTicket.setPreferredSize(new java.awt.Dimension(160, 80));
         btnBookTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBookTicketActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        pnHome.add(btnBookTicket, gridBagConstraints);
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        pnAction.add(btnBookTicket, gridBagConstraints);
 
         btnViewRoute.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnViewRoute.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bus_view_route.png"))); // NOI18N
         btnViewRoute.setText("View Route");
-        btnViewRoute.setMaximumSize(new java.awt.Dimension(160, 27));
-        btnViewRoute.setMinimumSize(new java.awt.Dimension(160, 27));
-        btnViewRoute.setPreferredSize(new java.awt.Dimension(160, 27));
+        btnViewRoute.setMaximumSize(new java.awt.Dimension(160, 80));
+        btnViewRoute.setMinimumSize(new java.awt.Dimension(160, 80));
+        btnViewRoute.setPreferredSize(new java.awt.Dimension(160, 80));
         btnViewRoute.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnViewRouteActionPerformed(evt);
@@ -205,33 +226,33 @@ public class UserHomeFrame extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        pnHome.add(btnViewRoute, gridBagConstraints);
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        pnAction.add(btnViewRoute, gridBagConstraints);
 
         btnBookingHistory.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBookingHistory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/history.png"))); // NOI18N
         btnBookingHistory.setText("Booking History");
-        btnBookingHistory.setMaximumSize(new java.awt.Dimension(160, 27));
-        btnBookingHistory.setMinimumSize(new java.awt.Dimension(160, 27));
-        btnBookingHistory.setPreferredSize(new java.awt.Dimension(160, 27));
+        btnBookingHistory.setMaximumSize(new java.awt.Dimension(160, 80));
+        btnBookingHistory.setMinimumSize(new java.awt.Dimension(160, 80));
+        btnBookingHistory.setPreferredSize(new java.awt.Dimension(160, 80));
         btnBookingHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBookingHistoryActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        pnHome.add(btnBookingHistory, gridBagConstraints);
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        pnAction.add(btnBookingHistory, gridBagConstraints);
 
         btnLogOut.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/log_out.png"))); // NOI18N
         btnLogOut.setText("Log Out");
-        btnLogOut.setMaximumSize(new java.awt.Dimension(160, 27));
-        btnLogOut.setMinimumSize(new java.awt.Dimension(160, 27));
-        btnLogOut.setPreferredSize(new java.awt.Dimension(160, 27));
+        btnLogOut.setMaximumSize(new java.awt.Dimension(160, 40));
+        btnLogOut.setMinimumSize(new java.awt.Dimension(160, 40));
+        btnLogOut.setPreferredSize(new java.awt.Dimension(160, 40));
         btnLogOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLogOutActionPerformed(evt);
@@ -239,107 +260,165 @@ public class UserHomeFrame extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        pnHome.add(btnLogOut, gridBagConstraints);
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        pnAction.add(btnLogOut, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        pnHome.add(pnAction, gridBagConstraints);
+
+        pnHomeHolder.setMinimumSize(new java.awt.Dimension(1200, 200));
+        pnHomeHolder.setPreferredSize(new java.awt.Dimension(1200, 200));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        pnHome.add(pnHomeHolder, gridBagConstraints);
 
         pnApp.add(pnHome, "card2");
 
-        pnNotifications.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 20));
+        pnNotifications.setMaximumSize(new java.awt.Dimension(1200, 600));
+        pnNotifications.setMinimumSize(new java.awt.Dimension(1200, 600));
+        pnNotifications.setPreferredSize(new java.awt.Dimension(1200, 600));
+        pnNotifications.setLayout(new java.awt.GridBagLayout());
 
-        lbUserNotifications.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbUserNotifications.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbUserNotifications.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbUserNotifications.setText("Notifications");
-        lbUserNotifications.setMaximumSize(new java.awt.Dimension(200, 25));
-        lbUserNotifications.setMinimumSize(new java.awt.Dimension(200, 25));
-        lbUserNotifications.setPreferredSize(new java.awt.Dimension(200, 25));
-        pnNotifications.add(lbUserNotifications);
+        lbUserNotifications.setMaximumSize(new java.awt.Dimension(200, 40));
+        lbUserNotifications.setMinimumSize(new java.awt.Dimension(200, 40));
+        lbUserNotifications.setPreferredSize(new java.awt.Dimension(200, 40));
+        pnNotifications.add(lbUserNotifications, new java.awt.GridBagConstraints());
 
-        pnNotifCategory.setMaximumSize(new java.awt.Dimension(200, 36));
-        pnNotifCategory.setMinimumSize(new java.awt.Dimension(200, 36));
-        pnNotifCategory.setPreferredSize(new java.awt.Dimension(200, 36));
+        pnNotifCategory.setMaximumSize(new java.awt.Dimension(200, 50));
+        pnNotifCategory.setMinimumSize(new java.awt.Dimension(200, 50));
+        pnNotifCategory.setPreferredSize(new java.awt.Dimension(200, 50));
         pnNotifCategory.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
+        cbNotifCategory.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cbNotifCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "New", "Seen", "Important" }));
-        cbNotifCategory.setMaximumSize(new java.awt.Dimension(100, 22));
-        cbNotifCategory.setMinimumSize(new java.awt.Dimension(100, 22));
-        cbNotifCategory.setPreferredSize(new java.awt.Dimension(100, 22));
+        cbNotifCategory.setMaximumSize(new java.awt.Dimension(150, 40));
+        cbNotifCategory.setMinimumSize(new java.awt.Dimension(150, 40));
+        cbNotifCategory.setPreferredSize(new java.awt.Dimension(150, 40));
         pnNotifCategory.add(cbNotifCategory);
 
-        pnNotifications.add(pnNotifCategory);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 700, 0, 0);
+        pnNotifications.add(pnNotifCategory, gridBagConstraints);
 
-        spnNotifDetail.setMaximumSize(new java.awt.Dimension(320, 360));
-        spnNotifDetail.setMinimumSize(new java.awt.Dimension(320, 360));
-        spnNotifDetail.setPreferredSize(new java.awt.Dimension(320, 360));
+        spnNotifDetail.setMaximumSize(new java.awt.Dimension(1000, 500));
+        spnNotifDetail.setMinimumSize(new java.awt.Dimension(1000, 500));
+        spnNotifDetail.setPreferredSize(new java.awt.Dimension(1000, 500));
         spnNotifDetail.setViewportView(pnNotifDetail);
 
-        pnNotifications.add(spnNotifDetail);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        pnNotifications.add(spnNotifDetail, gridBagConstraints);
 
         pnApp.add(pnNotifications, "card3");
 
-        pnSettings.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 20));
+        pnSettings.setMaximumSize(new java.awt.Dimension(1200, 600));
+        pnSettings.setMinimumSize(new java.awt.Dimension(1200, 600));
+        pnSettings.setPreferredSize(new java.awt.Dimension(1200, 600));
+        pnSettings.setLayout(new java.awt.GridBagLayout());
 
-        lbAppSettings.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbAppSettings.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbAppSettings.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbAppSettings.setText("Settings");
-        lbAppSettings.setMaximumSize(new java.awt.Dimension(200, 25));
-        lbAppSettings.setMinimumSize(new java.awt.Dimension(200, 25));
-        lbAppSettings.setPreferredSize(new java.awt.Dimension(200, 25));
-        pnSettings.add(lbAppSettings);
+        lbAppSettings.setMaximumSize(new java.awt.Dimension(200, 40));
+        lbAppSettings.setMinimumSize(new java.awt.Dimension(200, 40));
+        lbAppSettings.setPreferredSize(new java.awt.Dimension(200, 40));
+        pnSettings.add(lbAppSettings, new java.awt.GridBagConstraints());
 
-        pnSettingsHolder.setMaximumSize(new java.awt.Dimension(200, 80));
-        pnSettingsHolder.setMinimumSize(new java.awt.Dimension(200, 80));
-        pnSettingsHolder.setPreferredSize(new java.awt.Dimension(200, 80));
-        pnSettings.add(pnSettingsHolder);
+        pnSettingButtons.setMinimumSize(new java.awt.Dimension(1000, 500));
+        pnSettingButtons.setPreferredSize(new java.awt.Dimension(1000, 500));
+        pnSettingButtons.setLayout(new java.awt.GridBagLayout());
 
         btnAccSetting.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAccSetting.setText("Account");
-        btnAccSetting.setMaximumSize(new java.awt.Dimension(200, 27));
-        btnAccSetting.setMinimumSize(new java.awt.Dimension(200, 27));
-        btnAccSetting.setPreferredSize(new java.awt.Dimension(200, 27));
-        pnSettings.add(btnAccSetting);
+        btnAccSetting.setMaximumSize(new java.awt.Dimension(200, 40));
+        btnAccSetting.setMinimumSize(new java.awt.Dimension(200, 40));
+        btnAccSetting.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        pnSettingButtons.add(btnAccSetting, gridBagConstraints);
 
         btnNotifSetting.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnNotifSetting.setText("Notifications");
-        btnNotifSetting.setMaximumSize(new java.awt.Dimension(200, 27));
-        btnNotifSetting.setMinimumSize(new java.awt.Dimension(200, 27));
-        btnNotifSetting.setPreferredSize(new java.awt.Dimension(200, 27));
-        pnSettings.add(btnNotifSetting);
+        btnNotifSetting.setMaximumSize(new java.awt.Dimension(200, 40));
+        btnNotifSetting.setMinimumSize(new java.awt.Dimension(200, 40));
+        btnNotifSetting.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        pnSettingButtons.add(btnNotifSetting, gridBagConstraints);
 
         btnTravelPreSetting.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnTravelPreSetting.setText("Travel Preferences");
-        btnTravelPreSetting.setMaximumSize(new java.awt.Dimension(200, 27));
-        btnTravelPreSetting.setMinimumSize(new java.awt.Dimension(200, 27));
-        btnTravelPreSetting.setPreferredSize(new java.awt.Dimension(200, 27));
-        pnSettings.add(btnTravelPreSetting);
+        btnTravelPreSetting.setMaximumSize(new java.awt.Dimension(200, 40));
+        btnTravelPreSetting.setMinimumSize(new java.awt.Dimension(200, 40));
+        btnTravelPreSetting.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        pnSettingButtons.add(btnTravelPreSetting, gridBagConstraints);
 
         btnPaymentSetting.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnPaymentSetting.setText("Payment");
-        btnPaymentSetting.setMaximumSize(new java.awt.Dimension(200, 27));
-        btnPaymentSetting.setMinimumSize(new java.awt.Dimension(200, 27));
-        btnPaymentSetting.setPreferredSize(new java.awt.Dimension(200, 27));
-        pnSettings.add(btnPaymentSetting);
+        btnPaymentSetting.setMaximumSize(new java.awt.Dimension(200, 40));
+        btnPaymentSetting.setMinimumSize(new java.awt.Dimension(200, 40));
+        btnPaymentSetting.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        pnSettingButtons.add(btnPaymentSetting, gridBagConstraints);
 
         btnLanguageSetting.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLanguageSetting.setText("Language");
-        btnLanguageSetting.setMaximumSize(new java.awt.Dimension(200, 27));
-        btnLanguageSetting.setMinimumSize(new java.awt.Dimension(200, 27));
-        btnLanguageSetting.setPreferredSize(new java.awt.Dimension(200, 27));
-        pnSettings.add(btnLanguageSetting);
+        btnLanguageSetting.setMaximumSize(new java.awt.Dimension(200, 40));
+        btnLanguageSetting.setMinimumSize(new java.awt.Dimension(200, 40));
+        btnLanguageSetting.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        pnSettingButtons.add(btnLanguageSetting, gridBagConstraints);
 
         btnPrivacySetting.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnPrivacySetting.setText("Privacy");
-        btnPrivacySetting.setMaximumSize(new java.awt.Dimension(200, 27));
-        btnPrivacySetting.setMinimumSize(new java.awt.Dimension(200, 27));
-        btnPrivacySetting.setPreferredSize(new java.awt.Dimension(200, 27));
-        pnSettings.add(btnPrivacySetting);
+        btnPrivacySetting.setMaximumSize(new java.awt.Dimension(200, 40));
+        btnPrivacySetting.setMinimumSize(new java.awt.Dimension(200, 40));
+        btnPrivacySetting.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        pnSettingButtons.add(btnPrivacySetting, gridBagConstraints);
 
         btnHelpSetting.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnHelpSetting.setText("Help");
-        btnHelpSetting.setMaximumSize(new java.awt.Dimension(200, 27));
-        btnHelpSetting.setMinimumSize(new java.awt.Dimension(200, 27));
-        btnHelpSetting.setPreferredSize(new java.awt.Dimension(200, 27));
-        pnSettings.add(btnHelpSetting);
+        btnHelpSetting.setMaximumSize(new java.awt.Dimension(200, 40));
+        btnHelpSetting.setMinimumSize(new java.awt.Dimension(200, 40));
+        btnHelpSetting.setPreferredSize(new java.awt.Dimension(200, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        pnSettingButtons.add(btnHelpSetting, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        pnSettings.add(pnSettingButtons, gridBagConstraints);
 
         pnApp.add(pnSettings, "card4");
 
@@ -347,15 +426,15 @@ public class UserHomeFrame extends javax.swing.JFrame {
 
         pnNavigationIcon.setBackground(new java.awt.Color(150, 188, 255));
         pnNavigationIcon.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        pnNavigationIcon.setMaximumSize(new java.awt.Dimension(390, 48));
-        pnNavigationIcon.setMinimumSize(new java.awt.Dimension(390, 48));
-        pnNavigationIcon.setPreferredSize(new java.awt.Dimension(390, 48));
-        pnNavigationIcon.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 2, 2));
+        pnNavigationIcon.setMaximumSize(new java.awt.Dimension(1260, 50));
+        pnNavigationIcon.setMinimumSize(new java.awt.Dimension(1260, 50));
+        pnNavigationIcon.setPreferredSize(new java.awt.Dimension(1260, 50));
+        pnNavigationIcon.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 2, 0));
 
         btnHomeNav.setText("Home");
-        btnHomeNav.setMaximumSize(new java.awt.Dimension(125, 40));
-        btnHomeNav.setMinimumSize(new java.awt.Dimension(125, 40));
-        btnHomeNav.setPreferredSize(new java.awt.Dimension(125, 40));
+        btnHomeNav.setMaximumSize(new java.awt.Dimension(410, 40));
+        btnHomeNav.setMinimumSize(new java.awt.Dimension(410, 40));
+        btnHomeNav.setPreferredSize(new java.awt.Dimension(410, 40));
         btnHomeNav.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHomeNavActionPerformed(evt);
@@ -364,9 +443,9 @@ public class UserHomeFrame extends javax.swing.JFrame {
         pnNavigationIcon.add(btnHomeNav);
 
         btnNotificationsNav.setText("Notifications");
-        btnNotificationsNav.setMaximumSize(new java.awt.Dimension(125, 40));
-        btnNotificationsNav.setMinimumSize(new java.awt.Dimension(125, 40));
-        btnNotificationsNav.setPreferredSize(new java.awt.Dimension(125, 40));
+        btnNotificationsNav.setMaximumSize(new java.awt.Dimension(410, 40));
+        btnNotificationsNav.setMinimumSize(new java.awt.Dimension(410, 40));
+        btnNotificationsNav.setPreferredSize(new java.awt.Dimension(410, 40));
         btnNotificationsNav.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNotificationsNavActionPerformed(evt);
@@ -375,9 +454,9 @@ public class UserHomeFrame extends javax.swing.JFrame {
         pnNavigationIcon.add(btnNotificationsNav);
 
         btnSettingsNav.setText("Settings");
-        btnSettingsNav.setMaximumSize(new java.awt.Dimension(125, 40));
-        btnSettingsNav.setMinimumSize(new java.awt.Dimension(125, 40));
-        btnSettingsNav.setPreferredSize(new java.awt.Dimension(125, 40));
+        btnSettingsNav.setMaximumSize(new java.awt.Dimension(410, 40));
+        btnSettingsNav.setMinimumSize(new java.awt.Dimension(410, 40));
+        btnSettingsNav.setPreferredSize(new java.awt.Dimension(410, 40));
         btnSettingsNav.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSettingsNavActionPerformed(evt);
@@ -470,7 +549,7 @@ public class UserHomeFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                // new UserHomeFrame().setVisible(true);
+//                 new UserHomeFrame().setVisible(true);
             }
         });
     }
@@ -498,6 +577,7 @@ public class UserHomeFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lbEditProfile;
     private javax.swing.JLabel lbHomeWelcome;
     private javax.swing.JLabel lbUserNotifications;
+    private javax.swing.JPanel pnAction;
     private javax.swing.JPanel pnApp;
     private javax.swing.JPanel pnAppNotifications;
     private javax.swing.JPanel pnHome;
@@ -506,8 +586,9 @@ public class UserHomeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pnNotifCategory;
     private javax.swing.JPanel pnNotifDetail;
     private javax.swing.JPanel pnNotifications;
+    private javax.swing.JPanel pnSettingButtons;
     private javax.swing.JPanel pnSettings;
-    private javax.swing.JPanel pnSettingsHolder;
+    private javax.swing.JPanel pnUser;
     private javax.swing.JScrollPane spnNotifDetail;
     // End of variables declaration//GEN-END:variables
 }

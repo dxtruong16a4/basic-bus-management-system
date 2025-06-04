@@ -21,7 +21,7 @@ public class BookingController {
     }
     
     private BookingController() {
-        dbConnect = new DbConnect();
+        dbConnect = DbConnect.getInstance();
         bookingDAO = new BookingDAO(dbConnect);
     }
 
@@ -150,5 +150,9 @@ public class BookingController {
             e.printStackTrace();
             return Map.of();
         }
+    }
+
+    public DbConnect getDbConnect() {
+        return dbConnect;
     }
 }
