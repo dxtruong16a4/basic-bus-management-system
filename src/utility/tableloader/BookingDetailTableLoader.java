@@ -40,7 +40,7 @@ public class BookingDetailTableLoader {
             detailMap.put(DbConstants.PASSENGER_AGE, detail.getPassengerAge());
             detailMap.put(DbConstants.PASSENGER_GENDER, detail.getPassengerGender());
             detailMap.put(DbConstants.FARE, detail.getFare());
-            detailMap.put(DbConstants.SEAT_NUMBER, detail.getSeatNUmber());
+            detailMap.put(DbConstants.SEAT_NUMBER, detail.getSeatNumber());
             bookingDetailData.add(detailMap);
         }
 
@@ -67,7 +67,7 @@ public class BookingDetailTableLoader {
             detailMap.put(DbConstants.PASSENGER_AGE, detail.getPassengerAge());
             detailMap.put(DbConstants.PASSENGER_GENDER, detail.getPassengerGender());
             detailMap.put(DbConstants.FARE, detail.getFare());
-            detailMap.put(DbConstants.SEAT_NUMBER, detail.getSeatNUmber());
+            detailMap.put(DbConstants.SEAT_NUMBER, detail.getSeatNumber());
             bookingDetailData.add(detailMap);
         }
 

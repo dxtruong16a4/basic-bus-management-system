@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package utility;
 
 import java.sql.Connection;
@@ -13,10 +9,6 @@ import static utility.DbConstants.DB_URL;
 import static utility.DbConstants.DB_USER;
 import static utility.DbConstants.DB_PASSWORD;
 
-/**
- *
- * @author xuan2
- */
 public class DbConnect {
     private Connection con;
     

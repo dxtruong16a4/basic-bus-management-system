@@ -1,0 +1,134 @@
+CREATE TABLE users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone_number VARCHAR(20),
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    date_of_birth DATE,
+    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP NULL DEFAULT NULL,
+    account_status ENUM('active', 'inactive') DEFAULT 'active'
+    role ENUM('user', 'admin') DEFAULT 'user'
+);
+
+CREATE TABLE buses (
+    bus_id INT PRIMARY KEY AUTO_INCREMENT,
+    bus_number VARCHAR(20) UNIQUE NOT NULL,
+    bus_name VARCHAR(100),
+    bus_type VARCHAR(50),
+    total_seats INT NOT NULL,
+    operator_id INT,
+    registration_number VARCHAR(50) UNIQUE NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (operator_id) REFERENCES bus_operators(operator_id)
+);
+
+CREATE TABLE bus_operators (
+    operator_id INT PRIMARY KEY AUTO_INCREMENT,
+    operator_name VARCHAR(100) NOT NULL,
+    contact_person VARCHAR(100),
+    contact_email VARCHAR(100),
+    contact_phone VARCHAR(20),
+    address VARCHAR(255),
+    rating DECIMAL(3, 2),
+    joined_date DATE
+);
+
+CREATE TABLE routes (
+    route_id INT PRIMARY KEY AUTO_INCREMENT,
+    origin_city VARCHAR(100) NOT NULL,
+    destination_city VARCHAR(100) NOT NULL,
+    distance DECIMAL(10, 2),
+    estimated_duration INT
+);
+
+CREATE TABLE Schedules (
+    schedule_id INT PRIMARY KEY AUTO_INCREMENT,
+    bus_id INT,
+    route_id INT,
+    departure_time DATETIME NOT NULL,
+    arrival_time DATETIME NOT NULL,
+    frequency VARCHAR(50),
+    is_active BOOLEAN DEFAULT TRUE,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (bus_id) REFERENCES buses(bus_id),
+    FOREIGN KEY (route_id) REFERENCES routes(route_id)
+);
+
+CREATE TABLE Seats (
+    seat_id INT PRIMARY KEY AUTO_INCREMENT,
+    bus_id INT,
+    seat_number VARCHAR(10) NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (bus_id) REFERENCES buses(bus_id),
+    UNIQUE KEY unique_seat_bus (bus_id, seat_number)
+);
+
+CREATE TABLE Bookings (
+    booking_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    schedule_id INT,
+    booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    total_fare DECIMAL(10, 2),
+    booking_status ENUM('confirmed', 'cancelled', 'completed') DEFAULT 'confirmed',
+    payment_status VARCHAR(50),
+    number_of_seats INT NOT NULL,
+    trip_date DATE NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (schedule_id) REFERENCES Schedules(schedule_id)
+);
+
+CREATE TABLE Booking_Details (
+    booking_detail_id INT PRIMARY KEY AUTO_INCREMENT,
+    booking_id INT,
+    seat_id INT,
+    passenger_name VARCHAR(100) NOT NULL,
+    passenger_age INT,
+    passenger_gender ENUM('male', 'female', 'other'),
+    fare DECIMAL(10, 2),
+    seat_number VARCHAR(10) NOT NULL,
+    FOREIGN KEY (booking_id) REFERENCES Bookings(booking_id),
+    FOREIGN KEY (seat_id) REFERENCES Seats(seat_id),
+    UNIQUE KEY unique_seat_booking (booking_id, seat_id)
+);
+
+CREATE TABLE Fares (
+    fare_id INT PRIMARY KEY AUTO_INCREMENT,
+    bus_id INT,
+    route_id INT,
+    base_fare DECIMAL(10, 2) NOT NULL,
+    taxes DECIMAL(10, 2) DEFAULT 0.00,
+    service_charge DECIMAL(10, 2) DEFAULT 0.00,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (bus_id) REFERENCES Buses(bus_id),
+    FOREIGN KEY (route_id) REFERENCES Routes(route_id),
+    UNIQUE KEY unique_bus_route (bus_id, route_id)
+);
+
+CREATE TABLE Payments (
+    payment_id INT PRIMARY KEY AUTO_INCREMENT,
+    booking_id INT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    payment_method VARCHAR(50) NOT NULL,
+    transaction_id VARCHAR(100) UNIQUE,
+    payment_status VARCHAR(50) NOT NULL,
+    receipt_url VARCHAR(255),
+    FOREIGN KEY (booking_id) REFERENCES Bookings(booking_id)
+);
+
+CREATE TABLE Reviews (
+    review_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    bus_id INT,
+    operator_id INT,
+    rating INT CHECK (rating >= 1 AND rating <= 5),
+    review_text TEXT,
+    review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    trip_date DATE,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (bus_id) REFERENCES Buses(bus_id),
+    FOREIGN KEY (operator_id) REFERENCES Bus_Operators(operator_id)
+);

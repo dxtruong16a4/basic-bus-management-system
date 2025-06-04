@@ -3,6 +3,7 @@ package utility;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.util.Map;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.awt.FlowLayout;
@@ -129,7 +130,6 @@ public class AppUtil {
         componentManager.addComponentWithId(falseId, "falsebutton", falseButton);
         componentManager.addComponentWithId(id, "radiobuttons", trueButton);
     }
-
 
     private JDateChooser addCalendarComponent(JPanel panel, String id, GridBagConstraints gbc) {
         if (panel == null) return null;
@@ -266,7 +266,7 @@ public class AppUtil {
                     switch (columnKey.toLowerCase()) {
                         case "booking_id":
                             comboData = bookingDetailController.getAllBookingDetails().stream()
-                                .map(booking -> booking.getBookingId() + " - " + booking.getFare())
+                                .map(booking -> booking.getBookingId() + " - " + booking.getPassengerName())
                                 .toArray(String[]::new);
                             break;
                         case "booking_detail_id":
@@ -309,7 +309,6 @@ public class AppUtil {
                                 .map(user -> user.getUserId() + " - " + user.getUsername())
                                 .toArray(String[]::new);
                             break;
-                        
                         default:
                             System.out.println("No matching case for: " + columnKey);
                     }
@@ -360,7 +359,6 @@ public class AppUtil {
                 inputData.put(columnKey, value);
             }
         }
-        System.out.println("Input Data Collected: " + inputData);
         return inputData;
     }
     

@@ -87,15 +87,18 @@ public class BookingDetailDAO implements IBookingDetailDAO {
     public boolean insert(final BookingDetail bookingDetail) throws SQLException, ClassNotFoundException {
         if (!checkConnection()) return false;
 
-        String query = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?)",
-                TABLE, ID, BOOKING_ID, SEAT_ID, FARE, SEAT_NUMBER);
+        String query = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                TABLE, ID, BOOKING_ID, SEAT_ID, PASSENGER_NAME, PASSENGER_AGE, PASSENGER_GENDER, FARE, SEAT_NUMBER);
 
         try (PreparedStatement pst = con.prepareStatement(query)) {
             pst.setInt(1, bookingDetail.getBookingDetailId());
             pst.setInt(2, bookingDetail.getBookingId());
             pst.setInt(3, bookingDetail.getSeatId());
-            pst.setDouble(4, bookingDetail.getFare());
-            pst.setString(5, bookingDetail.getSeatNUmber());
+            pst.setString(4, bookingDetail.getPassengerName());
+            pst.setInt(5, bookingDetail.getPassengerAge());
+            pst.setString(6, bookingDetail.getPassengerGender());
+            pst.setDouble(7, bookingDetail.getFare());
+            pst.setString(8, bookingDetail.getSeatNumber());
             return pst.executeUpdate() > 0;
         }
     }
@@ -104,15 +107,18 @@ public class BookingDetailDAO implements IBookingDetailDAO {
     public boolean update(final BookingDetail bookingDetail) throws SQLException, ClassNotFoundException {
         if (!checkConnection()) return false;
 
-        String query = String.format("UPDATE %s SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ? WHERE %s = ?",
-                TABLE, BOOKING_ID, SEAT_ID, FARE, SEAT_NUMBER, ID);
+        String query = String.format("UPDATE %s SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? WHERE %s = ?",
+                TABLE, BOOKING_ID, SEAT_ID, PASSENGER_NAME, PASSENGER_AGE, PASSENGER_GENDER, FARE, SEAT_NUMBER, ID);
 
         try (PreparedStatement pst = con.prepareStatement(query)) {
             pst.setInt(1, bookingDetail.getBookingId());
             pst.setInt(2, bookingDetail.getSeatId());
-            pst.setDouble(3, bookingDetail.getFare());
-            pst.setString(4, bookingDetail.getSeatNUmber());
-            pst.setInt(5, bookingDetail.getBookingDetailId());
+            pst.setString(3, bookingDetail.getPassengerName());
+            pst.setInt(4, bookingDetail.getPassengerAge());
+            pst.setString(5, bookingDetail.getPassengerGender());
+            pst.setDouble(6, bookingDetail.getFare());
+            pst.setString(7, bookingDetail.getSeatNumber());
+            pst.setInt(8, bookingDetail.getBookingDetailId());
             return pst.executeUpdate() > 0;
         }
     }

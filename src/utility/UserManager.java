@@ -86,29 +86,4 @@ public class UserManager {
         }
         return false;
     }
-
-    // private static String getUserRole(final String username) {
-    //     Connection con = null;
-    //     PreparedStatement ps = null;
-    //     ResultSet rs = null;
-    //     try {
-    //         DbConnect db = new DbConnect();
-    //         con = db.getConnection();
-    //         String sql = "SELECT role FROM users WHERE username = ?";
-    //         ps = con.prepareStatement(sql);
-    //         ps.setString(1, username);
-    //         rs = ps.executeQuery();
-    //         if (rs.next()) {
-    //             return rs.getString("role");
-    //         }
-    //         return null;
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return null;
-    //     } finally {
-    //         try { if (rs != null) rs.close(); } catch (Exception ignored) {}
-    //         try { if (ps != null) ps.close(); } catch (Exception ignored) {}
-    //         try { if (con != null) con.close(); } catch (Exception ignored) {}
-    //     }
-    // }
 }

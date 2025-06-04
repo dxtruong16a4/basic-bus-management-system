@@ -15,14 +15,11 @@ public class TableHelper {
 
         List<String> keys;
         if (columnHeaderMap != null && !columnHeaderMap.isEmpty()) {
-            // Lấy keys theo thứ tự từ columnHeaderMap
             keys = new ArrayList<>(columnHeaderMap.keySet());
-            // Thêm header cột theo thứ tự từ columnHeaderMap
             for (String key : keys) {
                 model.addColumn(columnHeaderMap.get(key));
             }
 
-            // Thêm dữ liệu vào các cột theo thứ tự của keys
             for (Map<String, Object> row : data) {
                 List<Object> rowData = new ArrayList<>();
                 for (String key : keys) {
@@ -31,7 +28,6 @@ public class TableHelper {
                 model.addRow(rowData.toArray());
             }
         } else {
-            // Trường hợp không có columnHeaderMap, lấy keys từ hàng đầu tiên (thứ tự có thể không đảm bảo)
             Map<String, Object> firstRow = data.get(0);
             keys = new ArrayList<>(firstRow.keySet());
             for (String key : keys) {

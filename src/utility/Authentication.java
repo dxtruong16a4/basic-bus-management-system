@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class Authentication {
-    // Register a new user
     public static boolean register(final String username, final String password, String email, final String role) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -31,7 +30,6 @@ public class Authentication {
         }
     }
 
-    // Login: returns true if username and password match
     public static boolean login(final String username, final String password) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -59,7 +57,6 @@ public class Authentication {
         }
     }
 
-    // Check if a user exists
     public static boolean userExists(final String username) {
         Connection con = null;
         PreparedStatement ps = null;

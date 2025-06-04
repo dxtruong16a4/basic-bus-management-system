@@ -9,7 +9,7 @@ public class BookingDetail {
     private int passengerAge;
     private String passengerGender;
     private double fare;
-    private String seatNUmber;
+    private String seatNumber;
 
     public BookingDetail() {}
 
@@ -21,7 +21,7 @@ public class BookingDetail {
         this.passengerAge = passengerAge;
         this.passengerGender = passengerGender;
         this.fare = fare;
-        this.seatNUmber = seatNumber;
+        this.seatNumber = seatNumber;
     }
 
     public int getBookingDetailId() {
@@ -80,11 +80,11 @@ public class BookingDetail {
         this.fare = fare;
     }
 
-    public String getSeatNUmber() {
-        return seatNUmber;
+    public String getSeatNumber() {
+        return seatNumber;
     }
 
-    public void setSeatNUmber(String seatNUmber) {
-        this.seatNUmber = seatNUmber;
+    public void setSeatNumber(String seatNumber) {
+        this.seatNumber = seatNumber;
     }
 }

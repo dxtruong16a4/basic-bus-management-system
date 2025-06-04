@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -202,16 +201,6 @@ public class Manager extends javax.swing.JFrame {
             columnTypes = bookingDetailController.getColumnDataTypes();
             headerPrefix = "booking_detail.header.";
             primaryKey = "booking_detail_id";
-            idComboBoxData = new HashMap<>();
-            List<BookingDetail> all = bookingDetailController.getAllBookingDetails();
-            Set<String> bookingIds = new HashSet<>();
-            Set<String> seatIds = new HashSet<>();
-            for (BookingDetail bd : all) {
-                bookingIds.add(String.valueOf(bd.getBookingId()));
-                seatIds.add(String.valueOf(bd.getSeatId()));
-            }
-            idComboBoxData.put("Booking ID", bookingIds.toArray(new String[0]));
-            idComboBoxData.put("Seat ID", seatIds.toArray(new String[0]));
         } else if (mode.equals(translator.translate("db.table.buses"))) {
             columnTypes = busController.getColumnDataTypes();
             headerPrefix = "bus.header.";
@@ -245,6 +234,18 @@ public class Manager extends javax.swing.JFrame {
     }
 
     private void showInputPanel(boolean show) {
+        if ("insert".equals(currentAction)) {
+            btnInsert.setBackground(new java.awt.Color(102, 102, 255));
+        } else if ("update".equals(currentAction)) {
+            btnUpdate.setBackground(new java.awt.Color(102, 102, 255));
+        } else if ("delete".equals(currentAction)) {
+            btnDelete.setBackground(new java.awt.Color(102, 102, 255));
+        }
+        else {
+            btnInsert.setBackground(new java.awt.Color(255, 255, 255));
+            btnUpdate.setBackground(new java.awt.Color(255, 255, 255));
+            btnDelete.setBackground(new java.awt.Color(255, 255, 255));
+        }
         pnInput.setPreferredSize(new Dimension(700, lineCount * 40));
         pnInput.setVisible(show);
     }
@@ -373,14 +374,77 @@ public class Manager extends javax.swing.JFrame {
         }
         if (mode.equals(translator.translate("db.table.bookings"))) {
             return bookingController.addBooking(appUtil.getInputData(pnInput, bookingController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.booking_details"))) {
+            return bookingDetailController.addBookingDetail(appUtil.getInputData(pnInput, bookingDetailController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.buses"))) {
+            return busController.addBus(appUtil.getInputData(pnInput, busController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.bus_operators"))) {
+            return busOperatorController.addBusOperator(appUtil.getInputData(pnInput, busOperatorController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.fares"))) {
+            return fareController.addFare(appUtil.getInputData(pnInput, fareController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.routes"))) {
+            return routeController.addRoute(appUtil.getInputData(pnInput, routeController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.schedules"))) {
+            return scheduleController.addSchedule(appUtil.getInputData(pnInput, scheduleController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.seats"))) {
+            return seatController.addSeat(appUtil.getInputData(pnInput, seatController.getColumnDataTypes()));
         }
+        System.out.println("Insert operation not available for this mode: " + mode);
         return false;
     }
 
-    private void update() {
+    private boolean update() {
+        String mode = (String) cbMode.getSelectedItem();
+        if (mode == null || mode.isEmpty()) {
+            System.out.println("No mode selected for update.");
+            return false;
+        }
+        if (mode.equals(translator.translate("db.table.bookings"))) {
+            return bookingController.updateBooking(appUtil.getInputData(pnInput, bookingController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.booking_details"))) {
+            return bookingDetailController.updateBookingDetail(appUtil.getInputData(pnInput, bookingDetailController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.buses"))) {
+            return busController.updateBus(appUtil.getInputData(pnInput, busController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.bus_operators"))) {
+            return busOperatorController.updateBusOperator(appUtil.getInputData(pnInput, busOperatorController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.fares"))) {
+            return fareController.updateFare(appUtil.getInputData(pnInput, fareController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.routes"))) {
+            return routeController.updateRoute(appUtil.getInputData(pnInput, routeController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.schedules"))) {
+            return scheduleController.updateSchedule(appUtil.getInputData(pnInput, scheduleController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.seats"))) {
+            return seatController.updateSeat(appUtil.getInputData(pnInput, seatController.getColumnDataTypes()));
+        }
+        System.out.println("Update operation not available for this mode: " + mode);
+        return false;
     }
 
-    private void delete() {
+    private boolean delete() {
+        String mode = (String) cbMode.getSelectedItem();
+        if (mode == null || mode.isEmpty()) {
+            System.out.println("No mode selected for deletion.");
+            return false;
+        }
+        if (mode.equals(translator.translate("db.table.bookings"))) {
+            return bookingController.deleteBooking(appUtil.getInputData(pnInput, bookingController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.booking_details"))) {
+            return bookingDetailController.deleteBookingDetail(appUtil.getInputData(pnInput, bookingDetailController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.buses"))) {
+            return busController.deleteBus(appUtil.getInputData(pnInput, busController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.bus_operators"))) {
+            return busOperatorController.deleteBusOperator(appUtil.getInputData(pnInput, busOperatorController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.fares"))) {
+            return fareController.deleteFare(appUtil.getInputData(pnInput, fareController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.routes"))) {
+            return routeController.deleteRoute(appUtil.getInputData(pnInput, routeController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.schedules"))) {
+            return scheduleController.deleteSchedule(appUtil.getInputData(pnInput, scheduleController.getColumnDataTypes()));
+        } else if (mode.equals(translator.translate("db.table.seats"))) {
+            return seatController.deleteSeat(appUtil.getInputData(pnInput, seatController.getColumnDataTypes()));
+        }
+        System.out.println("Delete operation not available for this mode: " + mode);
+        return false;
     }
 
     /**
@@ -732,8 +796,8 @@ public class Manager extends javax.swing.JFrame {
     }//GEN-LAST:event_tfSearchFocusLost
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        showInputPanel(false);
         currentAction = null;
+        showInputPanel(false);
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
@@ -742,8 +806,8 @@ public class Manager extends javax.swing.JFrame {
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         if ("insert".equals(currentAction)) {
-            showInputPanel(false);
             currentAction = null;
+            showInputPanel(false);            
             if (insert()) {
                 JOptionPane.showMessageDialog(this, translator.translate("message.insert.success"), translator.translate("message.title.success"), JOptionPane.INFORMATION_MESSAGE);
                 loadTable((String) cbMode.getSelectedItem());
@@ -751,30 +815,40 @@ public class Manager extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, translator.translate("message.insert.failure"), translator.translate("message.title.failure"), JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            showInputPanel(true);
             currentAction = "insert";
+            showInputPanel(true);
         }
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        if ("update".equals(currentAction)) {
-            System.out.println("Update!");
-            showInputPanel(false);
+        if ("update".equals(currentAction)) {          
             currentAction = null;
+            showInputPanel(false);
+            if (update()) {
+                JOptionPane.showMessageDialog(this, translator.translate("message.update.success"), translator.translate("message.title.success"), JOptionPane.INFORMATION_MESSAGE);
+                loadTable((String) cbMode.getSelectedItem());
+            } else {
+                JOptionPane.showMessageDialog(this, translator.translate("message.update.failure"), translator.translate("message.title.failure"), JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            showInputPanel(true);
             currentAction = "update";
+            showInputPanel(true);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         if ("delete".equals(currentAction)) {
-            System.out.println("Delete!");
-            showInputPanel(false);
             currentAction = null;
+            showInputPanel(false);
+            if (delete()) {
+                JOptionPane.showMessageDialog(this, translator.translate("message.delete.success"), translator.translate("message.title.success"), JOptionPane.INFORMATION_MESSAGE);
+                loadTable((String) cbMode.getSelectedItem());
+            } else {
+                JOptionPane.showMessageDialog(this, translator.translate("message.delete.failure"), translator.translate("message.title.failure"), JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            showInputPanel(true);
             currentAction = "delete";
+            showInputPanel(true);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 

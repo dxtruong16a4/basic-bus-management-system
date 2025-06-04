@@ -87,7 +87,7 @@ public class BusOperatorDAO implements IBusOperatorDAO {
     public boolean insert(final BusOperator busOperator) throws SQLException, ClassNotFoundException {
         if (!checkConnection()) return false;
 
-        String query = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        String query = String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 TABLE, ID, NAME, CONTACT_PERSON, CONTACT_EMAIL, CONTACT_PHONE, ADDRESS, RATING, JOINED_DATE);
 
         try (PreparedStatement pst = con.prepareStatement(query)) {
