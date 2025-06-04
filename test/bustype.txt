@@ -1,7 +1,0 @@
-Luxury Coach (Xe khách cao cấp)
-Standard Bus (Xe buýt tiêu chuẩn)
-Mini Bus (Xe buýt nhỏ)
-Sleeper Bus (Xe giường nằm)
-Double-Decker Bus (Xe buýt hai tầng)
-City Bus (Xe buýt đô thị)
-School Bus (Xe buýt trường học)
