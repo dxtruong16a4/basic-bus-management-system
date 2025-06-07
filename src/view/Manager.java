@@ -26,6 +26,11 @@ public class Manager extends javax.swing.JFrame {
     private String currentAction = null;
     private int lineCount = 0;
 
+    private int currentPage = 1;
+    private int pageSize = 10;
+    private int totalRows = 0;
+    private int totalPages = 1;
+
     public static Manager instance = null;
     private AppUtil appUtil = null;
     private AppTranslator translator = null;
@@ -233,19 +238,17 @@ public class Manager extends javax.swing.JFrame {
         lineCount = appUtil.addComponentsByDataTypes(pnInput, gbc, columnTypes, headerPrefix, idComboBoxData, primaryKey);
     }
 
-    private void showInputPanel(boolean show) {
-        if ("insert".equals(currentAction)) {
-            btnInsert.setBackground(new java.awt.Color(102, 102, 255));
-        } else if ("update".equals(currentAction)) {
-            btnUpdate.setBackground(new java.awt.Color(102, 102, 255));
-        } else if ("delete".equals(currentAction)) {
-            btnDelete.setBackground(new java.awt.Color(102, 102, 255));
-        }
-        else {
-            btnInsert.setBackground(new java.awt.Color(255, 255, 255));
-            btnUpdate.setBackground(new java.awt.Color(255, 255, 255));
-            btnDelete.setBackground(new java.awt.Color(255, 255, 255));
-        }
+    private void updateButtonColors() {
+        btnInsert.setBackground("insert".equals(currentAction) ? 
+            new java.awt.Color(102, 102, 255) : new java.awt.Color(255, 255, 255));
+        btnUpdate.setBackground("update".equals(currentAction) ? 
+            new java.awt.Color(102, 102, 255) : new java.awt.Color(255, 255, 255));
+        btnDelete.setBackground("delete".equals(currentAction) ? 
+            new java.awt.Color(102, 102, 255) : new java.awt.Color(255, 255, 255));
+    }
+
+    private void showInputPanel(boolean show) {        
+        updateButtonColors();
         pnInput.setPreferredSize(new Dimension(700, lineCount * 40));
         pnInput.setVisible(show);
     }
@@ -266,25 +269,51 @@ public class Manager extends javax.swing.JFrame {
             System.out.println("No mode selected for loading table.");
             return;
         }
+        int offset = (currentPage - 1) * pageSize;
         if (mode.equals(translator.translate("db.table.bookings"))) {
-            bookingTableLoader.load(tbDetail);
+            List<?> all = bookingController.getAllBookings();
+            totalRows = all.size();
+            totalPages = (int) Math.ceil((double) totalRows / pageSize);
+            bookingTableLoader.load(tbDetail, offset, pageSize);
         } else if (mode.equals(translator.translate("db.table.booking_details"))) {
-            bookingDetailTableLoader.load(tbDetail);
+            List<?> all = bookingDetailController.getAllBookingDetails();
+            totalRows = all.size();
+            totalPages = (int) Math.ceil((double) totalRows / pageSize);
+            bookingDetailTableLoader.load(tbDetail, offset, pageSize);
         } else if (mode.equals(translator.translate("db.table.buses"))) {
-            busTableLoader.load(tbDetail);
+            List<?> all = busController.getAllBuses();
+            totalRows = all.size();
+            totalPages = (int) Math.ceil((double) totalRows / pageSize);
+            busTableLoader.load(tbDetail, offset, pageSize);
         } else if (mode.equals(translator.translate("db.table.bus_operators"))) {
-            busOperatorTableLoader.load(tbDetail);
+            List<?> all = busOperatorController.getAllBusOperators();
+            totalRows = all.size();
+            totalPages = (int) Math.ceil((double) totalRows / pageSize);
+            busOperatorTableLoader.load(tbDetail, offset, pageSize);
         } else if (mode.equals(translator.translate("db.table.routes"))) {
-            routeTableLoader.load(tbDetail);
+            List<?> all = routeController.getAllRoutes();
+            totalRows = all.size();
+            totalPages = (int) Math.ceil((double) totalRows / pageSize);
+            routeTableLoader.load(tbDetail, offset, pageSize);
         } else if (mode.equals(translator.translate("db.table.schedules"))) {
-            scheduleTableLoader.load(tbDetail);
+            List<?> all = scheduleController.getAllSchedules();
+            totalRows = all.size();
+            totalPages = (int) Math.ceil((double) totalRows / pageSize);
+            scheduleTableLoader.load(tbDetail, offset, pageSize);
         } else if (mode.equals(translator.translate("db.table.fares"))) {
-            fareTableLoader.load(tbDetail);
+            List<?> all = fareController.getAllFares();
+            totalRows = all.size();
+            totalPages = (int) Math.ceil((double) totalRows / pageSize);
+            fareTableLoader.load(tbDetail, offset, pageSize);
         } else if (mode.equals(translator.translate("db.table.seats"))) {
-            seatTableLoader.load(tbDetail);
+            List<?> all = seatController.getAllSeats();
+            totalRows = all.size();
+            totalPages = (int) Math.ceil((double) totalRows / pageSize);
+            seatTableLoader.load(tbDetail, offset, pageSize);
         } else {
             System.out.println("Unknown mode: " + mode);
         }
+        lbPageId.setText(currentPage + "/" + totalPages);
     }
 
     private Map<String, String> getColumnTypesByMode(String mode) {
@@ -777,12 +806,13 @@ public class Manager extends javax.swing.JFrame {
 
     private void cbModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbModeActionPerformed
         String selectedMode = (String) cbMode.getSelectedItem();
-        if (selectedMode != null && !selectedMode.isEmpty()) {
-            setTableHeader(selectedMode);
-            showInputPanel(false);
+        if (selectedMode != null && !selectedMode.isEmpty()) {      
+            currentPage = 1;
             loadCbSearch(selectedMode);
+            setTableHeader(selectedMode);
+            currentAction = null;            
             createInputPanel(selectedMode);
-            currentAction = null;
+            showInputPanel(false);
         } else {
             System.out.println("No mode selected.");
         }
@@ -812,7 +842,7 @@ public class Manager extends javax.swing.JFrame {
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         if ("insert".equals(currentAction)) {
             currentAction = null;
-            showInputPanel(false);            
+            showInputPanel(false);
             if (insert()) {
                 JOptionPane.showMessageDialog(this, translator.translate("message.insert.success"), translator.translate("message.title.success"), JOptionPane.INFORMATION_MESSAGE);
                 loadTable((String) cbMode.getSelectedItem());
@@ -882,19 +912,35 @@ public class Manager extends javax.swing.JFrame {
     }//GEN-LAST:event_tbDetailMouseClicked
 
     private void btnPre5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPre5ActionPerformed
-        // TODO add your handling code here:
+        if (currentPage > 5) {
+            currentPage -= 5;
+        } else {
+            currentPage = 1;
+        }
+        loadTable((String) cbMode.getSelectedItem());
     }//GEN-LAST:event_btnPre5ActionPerformed
 
     private void btnPre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPre1ActionPerformed
-        // TODO add your handling code here:
+        if (currentPage > 1) {
+            currentPage--;
+            loadTable((String) cbMode.getSelectedItem());
+        }
     }//GEN-LAST:event_btnPre1ActionPerformed
 
     private void btnNext1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNext1ActionPerformed
-        // TODO add your handling code here:
+        if (currentPage < totalPages) {
+            currentPage++;
+            loadTable((String) cbMode.getSelectedItem());
+        }
     }//GEN-LAST:event_btnNext1ActionPerformed
 
     private void btnNext5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNext5ActionPerformed
-        // TODO add your handling code here:
+        if (currentPage + 5 <= totalPages) {
+            currentPage += 5;
+        } else {
+            currentPage = totalPages;
+        }
+        loadTable((String) cbMode.getSelectedItem());
     }//GEN-LAST:event_btnNext5ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -944,7 +990,7 @@ public class Manager extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            //    new Manager().setVisible(true);
+               new Manager().setVisible(true);
             }
         });
     }

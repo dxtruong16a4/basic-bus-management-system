@@ -17,7 +17,7 @@ public class RouteTableLoader {
         this.translator = translator;
     }
 
-    public void load(JTable tbDetail) {
+    public void load(JTable tbDetail, int offset, int limit) {
         Map<String, String> headerMap = new LinkedHashMap<>();
         headerMap.put(DbConstants.ROUTE_ID, translator.translate("route.header.route_id"));
         headerMap.put(DbConstants.ORIGIN_CITY, translator.translate("route.header.origin_city"));
@@ -26,9 +26,11 @@ public class RouteTableLoader {
         headerMap.put(DbConstants.ESTIMATED_DURATION, translator.translate("route.header.estimated_duration"));
 
         List<Route> routeList = routeController.getAllRoutes();
+        int toIndex = Math.min(offset + limit, routeList.size());
+        List<Route> pageList = routeList.subList(offset, toIndex);
 
         List<Map<String, Object>> routeData = new ArrayList<>();
-        for (Route route : routeList) {
+        for (Route route : pageList) {
             Map<String, Object> routeMap = new HashMap<>();
             routeMap.put(DbConstants.ROUTE_ID, route.getRouteId());
             routeMap.put(DbConstants.ORIGIN_CITY, route.getOriginCity());

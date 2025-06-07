@@ -17,7 +17,7 @@ public class SeatTableLoader {
         this.translator = translator;
     }
 
-    public void load(JTable tbDetail) {
+    public void load(JTable tbDetail, int offset, int limit) {
         Map<String, String> headerMap = new LinkedHashMap<>();
         headerMap.put(DbConstants.SEAT_ID, translator.translate("seat.header.seat_id"));
         headerMap.put(DbConstants.BUS_ID, translator.translate("seat.header.bus_id"));
@@ -25,9 +25,11 @@ public class SeatTableLoader {
         headerMap.put(DbConstants.SEAT_IS_ACTIVE, translator.translate("seat.header.is_active"));
 
         List<Seat> seatList = seatController.getAllSeats();
+        int toIndex = Math.min(offset + limit, seatList.size());
+        List<Seat> pageList = seatList.subList(offset, toIndex);
 
         List<Map<String, Object>> seatData = new ArrayList<>();
-        for (Seat seat : seatList) {
+        for (Seat seat : pageList) {
             Map<String, Object> seatMap = new HashMap<>();
             seatMap.put(DbConstants.SEAT_ID, seat.getSeatId());
             seatMap.put(DbConstants.BUS_ID, seat.getBusId());

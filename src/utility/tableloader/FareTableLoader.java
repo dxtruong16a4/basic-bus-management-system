@@ -17,7 +17,7 @@ public class FareTableLoader {
         this.translator = translator;
     }
 
-    public void load(JTable tbDetail) {
+    public void load(JTable tbDetail, int offset, int limit) {
         Map<String, String> headerMap = new LinkedHashMap<>();
         headerMap.put(DbConstants.FARE_ID, translator.translate("fare.header.fare_id"));
         headerMap.put(DbConstants.BUS_ID, translator.translate("fare.header.bus_id"));
@@ -28,9 +28,11 @@ public class FareTableLoader {
         headerMap.put(DbConstants.LAST_UPDATED, translator.translate("fare.header.last_updated"));
 
         List<Fare> fareList = fareController.getAllFares();
+        int toIndex = Math.min(offset + limit, fareList.size());
+        List<Fare> pageList = fareList.subList(offset, toIndex);
 
         List<Map<String, Object>> fareData = new ArrayList<>();
-        for (Fare fare : fareList) {
+        for (Fare fare : pageList) {
             Map<String, Object> fareMap = new HashMap<>();
             fareMap.put(DbConstants.FARE_ID, fare.getFareId());
             fareMap.put(DbConstants.BUS_ID, fare.getBusId());

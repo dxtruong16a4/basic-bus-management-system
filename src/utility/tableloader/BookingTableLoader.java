@@ -17,7 +17,7 @@ public class BookingTableLoader {
         this.translator = translator;
     }
 
-    public void load(JTable tbDetail) {
+    public void load(JTable tbDetail, int offset, int limit) {
         Map<String, String> headerMap = new LinkedHashMap<>();
         headerMap.put(DbConstants.BOOKING_ID, translator.translate("booking.header.booking_id"));
         headerMap.put(DbConstants.USER_ID, translator.translate("booking.header.user_id"));
@@ -30,9 +30,11 @@ public class BookingTableLoader {
         headerMap.put(DbConstants.TRIP_DATE, translator.translate("booking.header.trip_date"));
 
         List<Booking> bookingList = bookingController.getAllBookings();
+        int toIndex = Math.min(offset + limit, bookingList.size());
+        List<Booking> pageList = bookingList.subList(offset, toIndex);
 
         List<Map<String, Object>> bookingData = new ArrayList<>();
-        for (Booking booking : bookingList) {
+        for (Booking booking : pageList) {
             Map<String, Object> bookingMap = new HashMap<>();
             bookingMap.put(DbConstants.BOOKING_ID, booking.getBookingId());
             bookingMap.put(DbConstants.USER_ID, booking.getUserId());

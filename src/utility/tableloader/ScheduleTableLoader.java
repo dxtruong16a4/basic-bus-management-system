@@ -17,7 +17,7 @@ public class ScheduleTableLoader {
         this.translator = translator;
     }
 
-    public void load(JTable tbDetail) {
+    public void load(JTable tbDetail, int offset, int limit) {
         Map<String, String> headerMap = new LinkedHashMap<>();
         headerMap.put(DbConstants.SCHEDULE_ID, translator.translate("schedule.header.schedule_id"));
         headerMap.put(DbConstants.BUS_ID, translator.translate("schedule.header.bus_id"));
@@ -29,9 +29,11 @@ public class ScheduleTableLoader {
         headerMap.put(DbConstants.CREATED_DATE, translator.translate("schedule.header.created_date"));
 
         List<Schedule> scheduleList = scheduleController.getAllSchedules();
+        int toIndex = Math.min(offset + limit, scheduleList.size());
+        List<Schedule> pageList = scheduleList.subList(offset, toIndex);
 
         List<Map<String, Object>> scheduleData = new ArrayList<>();
-        for (Schedule schedule : scheduleList) {
+        for (Schedule schedule : pageList) {
             Map<String, Object> scheduleMap = new HashMap<>();
             scheduleMap.put(DbConstants.SCHEDULE_ID, schedule.getScheduleId());
             scheduleMap.put(DbConstants.BUS_ID, schedule.getBusId());

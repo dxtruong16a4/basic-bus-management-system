@@ -17,7 +17,7 @@ public class BusOperatorTableLoader {
         this.translator = translator;
     }
 
-    public void load(JTable tbDetail) {
+    public void load(JTable tbDetail, int offset, int limit) {
         Map<String, String> headerMap = new LinkedHashMap<>();
         headerMap.put(DbConstants.OPERATOR_ID, translator.translate("bus_operator.header.operator_id"));
         headerMap.put(DbConstants.OPERATOR_NAME, translator.translate("bus_operator.header.operator_name"));
@@ -29,9 +29,11 @@ public class BusOperatorTableLoader {
         headerMap.put(DbConstants.JOINED_DATE, translator.translate("bus_operator.header.joined_date"));
 
         List<BusOperator> busOperatorList = busOperatorController.getAllBusOperators();
+        int toIndex = Math.min(offset + limit, busOperatorList.size());
+        List<BusOperator> pageList = busOperatorList.subList(offset, toIndex);
 
         List<Map<String, Object>> busOperatorData = new ArrayList<>();
-        for (BusOperator busOperator : busOperatorList) {
+        for (BusOperator busOperator : pageList) {
             Map<String, Object> busOperatorMap = new HashMap<>();
             busOperatorMap.put(DbConstants.OPERATOR_ID, busOperator.getOperatorId());
             busOperatorMap.put(DbConstants.OPERATOR_NAME, busOperator.getOperatorName());
