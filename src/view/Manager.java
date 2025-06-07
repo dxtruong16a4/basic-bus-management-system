@@ -3,11 +3,9 @@ package view;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
@@ -18,8 +16,10 @@ import utility.ComponentManager;
 import utility.DbConstants;
 import utility.tableloader.*;
 
+import utility.Suggestion.SuggestionFileUtil;
+import utility.Suggestion.SuggestionPopUp;
+
 import dao.DAO;
-import model.BookingDetail;
 import controller.*;
 
 public class Manager extends javax.swing.JFrame {
@@ -35,6 +35,7 @@ public class Manager extends javax.swing.JFrame {
     private AppUtil appUtil = null;
     private AppTranslator translator = null;
     private ComponentManager componentManager = null;
+    private SuggestionPopUp searchSuggestionPopUp = null;
 
     // Controller
     private BookingController bookingController = null;
@@ -316,6 +317,47 @@ public class Manager extends javax.swing.JFrame {
         lbPageId.setText(currentPage + "/" + totalPages);
     }
 
+    private void loadDataBy(String searchBy, String searchValue) {
+        String mode = (String) cbMode.getSelectedItem();
+        if (mode == null || mode.isEmpty()) {
+            System.out.println("No mode selected for loading data.");
+            return;
+        }
+        if (searchBy == null || searchBy.isEmpty() || searchValue == null || searchValue.isEmpty()) {
+            System.out.println("No search criteria provided.");
+            return;
+        }
+
+        int offset = (currentPage - 1) * pageSize;
+        if (mode.equals(translator.translate("db.table.bookings"))) {
+            bookingTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        }
+        // else if (mode.equals(translator.translate("db.table.booking_details"))) {
+        //     bookingDetailTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        // }
+        // else if (mode.equals(translator.translate("db.table.buses"))) {
+        //     busTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        // }
+        // else if (mode.equals(translator.translate("db.table.bus_operators"))) {
+        //     busOperatorTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        // }
+        // else if (mode.equals(translator.translate("db.table.routes"))) {
+        //     routeTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        // }
+        // else if (mode.equals(translator.translate("db.table.schedules"))) {
+        //     scheduleTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        // }
+        // else if (mode.equals(translator.translate("db.table.fares"))) {
+        //     fareTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        // }
+        // else if (mode.equals(translator.translate("db.table.seats"))) {
+        //     seatTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        // }
+        else {
+            System.out.println("Unknown mode: " + mode);
+        }
+    }
+
     private Map<String, String> getColumnTypesByMode(String mode) {
         if (mode.equals(translator.translate("db.table.bookings"))) {
             return bookingController.getColumnDataTypes();
@@ -389,10 +431,6 @@ public class Manager extends javax.swing.JFrame {
                 }
             } catch (Exception ex) {}
         }
-    }
-
-    private void loadDataBy(String searchBy, String searchValue) {
-        // Implement search logic here
     }
 
     private boolean insert() {
@@ -589,12 +627,9 @@ public class Manager extends javax.swing.JFrame {
         tfSearch.setMinimumSize(new java.awt.Dimension(300, 32));
         tfSearch.setName(""); // NOI18N
         tfSearch.setPreferredSize(new java.awt.Dimension(300, 32));
-        tfSearch.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tfSearchFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tfSearchFocusLost(evt);
+        tfSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tfSearchMouseClicked(evt);
             }
         });
         pnSearch.add(tfSearch, new java.awt.GridBagConstraints());
@@ -819,24 +854,55 @@ public class Manager extends javax.swing.JFrame {
     }//GEN-LAST:event_cbModeActionPerformed
 
     private void cbSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSearchActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_cbSearchActionPerformed
 
-    private void tfSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfSearchFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfSearchFocusGained
-
-    private void tfSearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfSearchFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfSearchFocusLost
+    private void tfSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfSearchMouseClicked
+        String mode = (String) cbMode.getSelectedItem();
+        if (mode == null || mode.isEmpty()) return;
+        try {
+            String suggestionFile = "src/suggestions.txt";
+            List<String> suggestions = new ArrayList<>(SuggestionFileUtil.readSuggestions(suggestionFile, mode));
+            if (searchSuggestionPopUp == null) {
+                searchSuggestionPopUp = new SuggestionPopUp(tfSearch, suggestions);
+            } else {
+                searchSuggestionPopUp.setSuggestions(suggestions);
+            }
+            searchSuggestionPopUp.showPopup();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_tfSearchMouseClicked
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         currentAction = null;
         showInputPanel(false);
+        String searchBy = (String) cbSearch.getSelectedItem();
+        String searchValue = tfSearch.getText().trim();
+        String mode = (String) cbMode.getSelectedItem();
+        if (searchBy != null && !searchBy.isEmpty() && !searchValue.isEmpty()) {
+            loadDataBy(searchBy, searchValue);
+            try {
+                String suggestionFile = "src/suggestions.txt";
+                List<String> suggestions = new ArrayList<>(SuggestionFileUtil.readSuggestions(suggestionFile, mode));
+                if (!suggestions.contains(searchValue)) {
+                    suggestions.add(searchValue);
+                    SuggestionFileUtil.writeSuggestions(suggestionFile, mode, suggestions);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, translator.translate("message.search.criteria.empty"),
+                translator.translate("message.title.error"), JOptionPane.ERROR_MESSAGE);
+        }
+        if (searchSuggestionPopUp != null) {
+            searchSuggestionPopUp.hidePopup();
+        }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
-        
+        loadTable((String) cbMode.getSelectedItem());
     }//GEN-LAST:event_btnLoadActionPerformed
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed

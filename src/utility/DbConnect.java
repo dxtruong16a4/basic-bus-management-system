@@ -42,8 +42,4 @@ public class DbConnect {
             this.con.close();
         }
     }
-    
-    public static void main(String[] args) {
-        DbConnect dbc =  DbConnect.getInstance();
-    }
 }

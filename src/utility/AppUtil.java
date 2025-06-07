@@ -3,7 +3,6 @@ package utility;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.util.Map;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.awt.FlowLayout;

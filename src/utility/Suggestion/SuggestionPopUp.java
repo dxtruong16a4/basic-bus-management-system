@@ -1,4 +1,4 @@
-package utility;
+package utility.Suggestion;
 import java.awt.Component;
 import java.awt.Point;
 import java.util.List;
@@ -7,7 +7,7 @@ import javax.swing.*;
 /**
  * JTextField tf = new JTextField(); <br>
  * List<String> suggestions = Arrays.asList(); <br>
- * TextFieldSuggestionPopup suggestionPopup = new TextFieldSuggestionPopup(tf, suggestions); <br>
+ * SuggestionPopUp suggestionPopup = new SuggestionPopUp(tf, suggestions); <br>
  * // To show the popup, call: <br>
  * suggestionPopup.showPopup();
  */
@@ -27,8 +27,10 @@ public class SuggestionPopUp {
         this.textField = textField;
         this.suggestions = suggestions;
         popup = new JPopupMenu();
+        popup.setFocusable(false);
         suggestionList = new JList<>();
         popup.add(new JScrollPane(suggestionList));
+        suggestionList.setFocusable(false);
 
         // Set events
         suggestionList.addListSelectionListener(e -> {
@@ -63,18 +65,26 @@ public class SuggestionPopUp {
 
     public void setSuggestions(List<String> suggestions) {
         this.suggestions = suggestions;
+        showPopup();
     }
 
     public void showPopup() {
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (String keyword : suggestions) {
+            model.addElement(keyword);
+        }
+        suggestionList.setModel(model);
+
         if (!popup.isVisible()) {
-            DefaultListModel<String> model = new DefaultListModel<>();
-            for (String keyword : suggestions) {
-                model.addElement(keyword);
-            }
-            suggestionList.setModel(model);
             Point p = getLocationOf(textField, textField.getTopLevelAncestor());
             popup.setPopupSize(textField.getWidth(), 100);
             popup.show(textField.getTopLevelAncestor(), p.x, p.y);
+        }
+    }
+
+    public void hidePopup() {
+        if (popup.isVisible()) {
+            popup.setVisible(false);
         }
     }
 
