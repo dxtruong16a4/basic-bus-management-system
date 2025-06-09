@@ -899,10 +899,13 @@ public class Manager extends javax.swing.JFrame {
         if (searchSuggestionPopUp != null) {
             searchSuggestionPopUp.hidePopup();
         }
+        tfSearch.setText("");
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
         loadTable((String) cbMode.getSelectedItem());
+        currentAction = null;
+        showInputPanel(false);
     }//GEN-LAST:event_btnLoadActionPerformed
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
