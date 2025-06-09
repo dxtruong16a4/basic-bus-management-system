@@ -1,6 +1,6 @@
 package view;
 
-import utility.UserManager;
+import utility.auth.UserManager;
 
 public class UserHomeFrame extends javax.swing.JFrame {
 

@@ -1,7 +1,8 @@
 package dao;
 
 import model.Bus;
-import utility.DbConnect;
+import utility.db.DbConnect;
+import utility.db.DbConstants;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 import dao.IDAO.IBusDAO;
-import utility.DbConstants;
+
 public class BusDAO implements IBusDAO {
     private final DbConnect dbConnect;
     private Connection con;

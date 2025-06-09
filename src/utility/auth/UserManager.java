@@ -1,10 +1,13 @@
-package utility;
+package utility.auth;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import model.User;
+import utility.db.DbConnect;
+import utility.db.DbConstants;
+import utility.security.AESUtil;
 
 public class UserManager {
 
@@ -18,9 +21,7 @@ public class UserManager {
         return instance;
     }
 
-    private UserManager() {
-
-    }
+    private UserManager() {}
 
     public User getCurrentUser() {
         return currentUser;

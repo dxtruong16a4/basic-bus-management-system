@@ -4,7 +4,7 @@ import java.util.List;
 
 import dao.UserDAO;
 import model.User;
-import utility.DbConnect;
+import utility.db.DbConnect;
 
 public class UserController {
     private DbConnect dbConnect = null;

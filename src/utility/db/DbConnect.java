@@ -1,13 +1,13 @@
-package utility;
+package utility.db;
+
+import static utility.db.DbConstants.DB_DRIVER;
+import static utility.db.DbConstants.DB_PASSWORD;
+import static utility.db.DbConstants.DB_URL;
+import static utility.db.DbConstants.DB_USER;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-import static utility.DbConstants.DB_DRIVER;
-import static utility.DbConstants.DB_URL;
-import static utility.DbConstants.DB_USER;
-import static utility.DbConstants.DB_PASSWORD;
 
 public class DbConnect {
     public static DbConnect instance = null;

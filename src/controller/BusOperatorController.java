@@ -6,7 +6,7 @@ import java.util.Map;
 import dao.BusOperatorDAO;
 import dao.DAO;
 import model.BusOperator;
-import utility.DbConnect;
+import utility.db.DbConnect;
 
 public class BusOperatorController {
     private DbConnect dbConnect = null;

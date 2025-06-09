@@ -10,15 +10,14 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
-import utility.AppTranslator;
-import utility.AppUtil;
-import utility.ComponentManager;
-import utility.DbConstants;
 import utility.tableloader.*;
 
 import utility.Suggestion.SuggestionFileUtil;
 import utility.Suggestion.SuggestionPopUp;
-
+import utility.app.AppTranslator;
+import utility.app.AppUtil;
+import utility.app.ComponentManager;
+import utility.db.DbConstants;
 import dao.DAO;
 import controller.*;
 
@@ -614,11 +613,6 @@ public class Manager extends javax.swing.JFrame {
         cbSearch.setMaximumSize(new java.awt.Dimension(120, 32));
         cbSearch.setMinimumSize(new java.awt.Dimension(120, 32));
         cbSearch.setPreferredSize(new java.awt.Dimension(120, 32));
-        cbSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbSearchActionPerformed(evt);
-            }
-        });
         pnSearch.add(cbSearch, new java.awt.GridBagConstraints());
 
         tfSearch.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -851,10 +845,6 @@ public class Manager extends javax.swing.JFrame {
             System.out.println("No mode selected.");
         }
     }//GEN-LAST:event_cbModeActionPerformed
-
-    private void cbSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSearchActionPerformed
-        
-    }//GEN-LAST:event_cbSearchActionPerformed
 
     private void tfSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfSearchMouseClicked
         String mode = (String) cbMode.getSelectedItem();

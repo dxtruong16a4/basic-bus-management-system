@@ -6,7 +6,7 @@ import java.util.Map;
 import dao.FareDAO;
 import dao.DAO;
 import model.Fare;
-import utility.DbConnect;
+import utility.db.DbConnect;
 
 public class FareController {
     private DbConnect dbConnect = null;

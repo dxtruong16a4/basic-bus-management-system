@@ -1,7 +1,9 @@
 package dao;
 
 import model.User;
-import utility.DbConnect;
+import utility.db.DbConnect;
+
+import static utility.db.DbConstants.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +14,6 @@ import java.util.Collections;
 import java.util.List;
 
 import dao.IDAO.IUserDAO;
-
-import static utility.DbConstants.*;
 
 public class UserDAO implements IUserDAO {
     private final DbConnect dbConnect;

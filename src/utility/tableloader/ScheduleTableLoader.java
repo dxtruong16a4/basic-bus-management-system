@@ -2,9 +2,9 @@ package utility.tableloader;
 
 import java.util.*;
 import model.Schedule;
-import utility.DbConstants;
-import utility.TableHelper;
-import utility.AppTranslator;
+import utility.app.AppTranslator;
+import utility.db.DbConstants;
+import utility.db.TableHelper;
 import controller.ScheduleController;
 import javax.swing.JTable;
 

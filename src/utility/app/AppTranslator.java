@@ -1,4 +1,4 @@
-package utility;
+package utility.app;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

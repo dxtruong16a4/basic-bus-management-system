@@ -6,7 +6,7 @@ import java.util.Map;
 import dao.PaymentDAO;
 import dao.DAO;
 import model.Payment;
-import utility.DbConnect;
+import utility.db.DbConnect;
 
 public class PaymentController {
     private DbConnect dbConnect = null;

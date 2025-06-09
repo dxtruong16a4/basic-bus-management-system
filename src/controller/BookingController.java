@@ -6,7 +6,7 @@ import java.util.Map;
 import dao.BookingDAO;
 import dao.DAO;
 import model.Booking;
-import utility.DbConnect;
+import utility.db.DbConnect;
 
 public class BookingController {
     private DbConnect dbConnect = null;

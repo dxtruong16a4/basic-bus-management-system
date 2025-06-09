@@ -2,9 +2,10 @@ package view;
 
 import java.util.Locale;
 
-import utility.AppTranslator;
-import utility.DbConnect;
-import utility.UserManager;
+import utility.app.AppTranslator;
+import utility.auth.UserManager;
+import utility.db.DbConnect;
+import utility.auth.Authentication;
 
 public class LoginFrame extends javax.swing.JFrame {
     AppTranslator translator = null;
@@ -165,7 +166,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 translator.translate("login.error.title"), javax.swing.JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if (utility.Authentication.login(username, password)) {      
+        if (Authentication.login(username, password)) {      
             UserManager userManager = UserManager.getInstance();
             userManager.login(username, password);
             if (userManager.getCurrentUser() != null && userManager.getCurrentUser().getRole().equals("admin")) {

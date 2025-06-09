@@ -1,4 +1,4 @@
-package utility;
+package utility.db;
 
 public class DbConstants {
     public static final String DATABASE = "qlxekhach";

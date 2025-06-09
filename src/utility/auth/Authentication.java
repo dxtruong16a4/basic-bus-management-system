@@ -1,8 +1,11 @@
-package utility;
+package utility.auth;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import utility.db.DbConnect;
+import utility.security.AESUtil;
 
 public class Authentication {
     public static boolean register(final String username, final String password, String email, final String role) {

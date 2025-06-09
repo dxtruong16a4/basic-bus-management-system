@@ -6,7 +6,7 @@ import java.util.Map;
 import dao.ScheduleDAO;
 import dao.DAO;
 import model.Schedule;
-import utility.DbConnect;
+import utility.db.DbConnect;
 
 public class ScheduleController {
     private DbConnect dbConnect = null;

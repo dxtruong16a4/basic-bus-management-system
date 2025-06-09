@@ -6,7 +6,7 @@ import java.util.Map;
 import dao.RouteDAO;
 import dao.DAO;
 import model.Route;
-import utility.DbConnect;
+import utility.db.DbConnect;
 
 public class RouteController {
     private DbConnect dbConnect = null;

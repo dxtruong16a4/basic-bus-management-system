@@ -1,7 +1,8 @@
 package dao;
 
 import model.Review;
-import utility.DbConnect;
+import utility.db.DbConnect;
+import utility.db.DbConstants;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 
 import dao.IDAO.IReviewDAO;
-import utility.DbConstants;
 
 public class ReviewDAO implements IReviewDAO {
     private final DbConnect dbConnect;

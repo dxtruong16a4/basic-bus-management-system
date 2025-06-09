@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
-import utility.DbConnect;
+import utility.db.DbConnect;
 
 public class DAO {
     public static Connection con;
@@ -19,7 +18,7 @@ public class DAO {
     public static List<String> getAllTableNames() {
         List<String> tableNames = new ArrayList<>();
         String query = "SELECT table_name FROM information_schema.tables WHERE table_schema = '"
-                + utility.DbConstants.DATABASE + "'";
+                + utility.db.DbConstants.DATABASE + "'";
         try (Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 tableNames.add(rs.getString("table_name"));
@@ -32,7 +31,7 @@ public class DAO {
 
     public static Map<String, String> getColumnDataTypes(String tableName) {
         Map<String, String> columnDataTypes = new java.util.LinkedHashMap<>();
-        String query = "SELECT column_name, column_type FROM information_schema.columns WHERE table_name = ? AND table_schema = '" + utility.DbConstants.DATABASE + "'";
+        String query = "SELECT column_name, column_type FROM information_schema.columns WHERE table_name = ? AND table_schema = '" + utility.db.DbConstants.DATABASE + "'";
         try (PreparedStatement pst = con.prepareStatement(query)) {
             pst.setString(1, tableName);
             try (ResultSet rs = pst.executeQuery()) {

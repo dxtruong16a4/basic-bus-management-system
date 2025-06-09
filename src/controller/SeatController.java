@@ -6,7 +6,7 @@ import java.util.Map;
 import dao.SeatDAO;
 import dao.DAO;
 import model.Seat;
-import utility.DbConnect;
+import utility.db.DbConnect;
 
 public class SeatController {
     private DbConnect dbConnect = null;

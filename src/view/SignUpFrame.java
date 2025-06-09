@@ -3,8 +3,8 @@ package view;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 
-import utility.AppTranslator;
-import utility.Authentication;
+import utility.app.AppTranslator;
+import utility.auth.Authentication;
 
 public class SignUpFrame extends javax.swing.JFrame {
     AppTranslator translator;

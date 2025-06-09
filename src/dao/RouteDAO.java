@@ -1,7 +1,8 @@
 package dao;
 
 import model.Route;
-import utility.DbConnect;
+import utility.db.DbConnect;
+import utility.db.DbConstants;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 
 import dao.IDAO.IRouteDAO;
-import utility.DbConstants;
 
 public class RouteDAO implements IRouteDAO {
     private final DbConnect dbConnect;

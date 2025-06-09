@@ -6,7 +6,7 @@ import java.util.Map;
 import dao.ReviewDAO;
 import dao.DAO;
 import model.Review;
-import utility.DbConnect;
+import utility.db.DbConnect;
 
 public class ReviewController {
     private DbConnect dbConnect = null;
