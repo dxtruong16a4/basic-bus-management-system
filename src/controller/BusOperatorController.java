@@ -24,64 +24,6 @@ public class BusOperatorController {
         dbConnect = DbConnect.getInstance();
         busOperatorDAO = new BusOperatorDAO(dbConnect);
     }
-    
-    public List<BusOperator> getAllBusOperators() {
-        try {
-            return busOperatorDAO.select(null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return List.of();
-        }
-    }
-
-    public BusOperator getBusOperatorBy(String whereClause, String[] params) {
-        try {
-            List<BusOperator> operators = busOperatorDAO.select(whereClause, params);
-            return operators.isEmpty() ? null : operators.get(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public Map<String, String> getColumnDataTypes() {
-        try {
-            return DAO.getColumnDataTypes(busOperatorDAO.getTableName());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Map.of();
-        }
-    }
-
-    public boolean addBusOperator(Map<String, Object> data) {
-        try {
-            BusOperator operator = mapToBusOperator(data);
-            return busOperatorDAO.insert(operator);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean updateBusOperator(Map<String, Object> data) {
-        try {
-            BusOperator operator = mapToBusOperator(data);
-            return busOperatorDAO.update(operator);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean deleteBusOperator(Map<String, Object> data) {
-        try {
-            int operatorId = (int) data.get("operator_id");
-            return busOperatorDAO.delete(operatorId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     private BusOperator mapToBusOperator(Map<String, Object> data) {
         java.sql.Date joinedDate = null;
@@ -120,6 +62,63 @@ public class BusOperatorController {
             rating,
             joinedDate
         );
+    }
+
+    public boolean addBusOperator(Map<String, Object> data) {
+        try {
+            BusOperator operator = mapToBusOperator(data);
+            return busOperatorDAO.insert(operator);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateBusOperator(Map<String, Object> data) {
+        try {
+            BusOperator operator = mapToBusOperator(data);
+            return busOperatorDAO.update(operator);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteBusOperator(Map<String, Object> data) {
+        try {
+            int operatorId = (int) data.get("operator_id");
+            return busOperatorDAO.delete(operatorId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public List<BusOperator> getAllBusOperators() {
+        try {
+            return busOperatorDAO.select(null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    public List<BusOperator> getBusOperatorBy(String whereClause, String[] params) {
+        try {
+            return busOperatorDAO.select(whereClause, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    public Map<String, String> getColumnDataTypes() {
+        try {
+            return DAO.getColumnDataTypes(busOperatorDAO.getTableName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Map.of();
+        }
     }
 
     public DbConnect getDbConnect() {

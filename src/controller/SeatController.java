@@ -25,32 +25,13 @@ public class SeatController {
         seatDAO = new SeatDAO(dbConnect);
     }
 
-    public List<Seat> getAllSeats() {
-        try {
-            return seatDAO.select(null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return List.of();
-        }
-    }
-
-    public Seat getSeatBy(String whereClause, String[] params) {
-        try {
-            List<Seat> seats = seatDAO.select(whereClause, params);
-            return seats.isEmpty() ? null : seats.get(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public Map<String, String> getColumnDataTypes() {
-        try {
-            return DAO.getColumnDataTypes(seatDAO.getTableName());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Map.of();
-        }
+    private Seat mapToSeat(Map<String, Object> data) {
+        return new Seat(
+            (int) data.get("seat_id"),
+            (int) data.get("bus_id"),
+            (String) data.get("seat_number"),
+            data.get("is_active") instanceof Boolean ? (Boolean) data.get("is_active") : Boolean.parseBoolean(data.get("is_active").toString())
+        );
     }
 
     public boolean addSeat(Map<String, Object> data) {
@@ -83,13 +64,31 @@ public class SeatController {
         }
     }
 
-    private Seat mapToSeat(Map<String, Object> data) {
-        return new Seat(
-            (int) data.get("seat_id"),
-            (int) data.get("bus_id"),
-            (String) data.get("seat_number"),
-            data.get("is_active") instanceof Boolean ? (Boolean) data.get("is_active") : Boolean.parseBoolean(data.get("is_active").toString())
-        );
+    public List<Seat> getAllSeats() {
+        try {
+            return seatDAO.select(null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    public List<Seat> getSeatsBy(String whereClause, String[] params) {
+        try {
+            return seatDAO.select(whereClause, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    public Map<String, String> getColumnDataTypes() {
+        try {
+            return DAO.getColumnDataTypes(seatDAO.getTableName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Map.of();
+        }
     }
 
     public DbConnect getDbConnect() {

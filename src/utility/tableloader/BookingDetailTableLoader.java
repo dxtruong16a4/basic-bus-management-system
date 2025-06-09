@@ -49,18 +49,44 @@ public class BookingDetailTableLoader {
         TableHelper.loadTable(tbDetail, bookingDetailData, headerMap);
     }
 
-    public void loadByBookingId(JTable tbDetail, int bookingId) {
+    public void loadBy(JTable tbDetail, String searchBy, String searchValue, int offset, int limit) {
+        Map<String, String> columnMap = Map.of(
+            translator.translate("booking_detail.header.booking_detail_id"), DbConstants.BOOKING_DETAIL_ID,
+            translator.translate("booking_detail.header.booking_id"), DbConstants.BOOKING_ID,
+            translator.translate("booking_detail.header.seat_id"), DbConstants.SEAT_ID,
+            translator.translate("booking_detail.header.passenger_name"), DbConstants.PASSENGER_NAME,
+            translator.translate("booking_detail.header.passenger_age"), DbConstants.PASSENGER_AGE,
+            translator.translate("booking_detail.header.passenger_gender"), DbConstants.PASSENGER_GENDER,
+            translator.translate("booking_detail.header.fare"), DbConstants.FARE,
+            translator.translate("booking_detail.header.seat_number"), DbConstants.SEAT_NUMBER
+        );
+        String realColumn = columnMap.getOrDefault(searchBy, searchBy);
+
         Map<String, String> headerMap = new LinkedHashMap<>();
         headerMap.put(DbConstants.BOOKING_DETAIL_ID, translator.translate("booking_detail.header.booking_detail_id"));
         headerMap.put(DbConstants.BOOKING_ID, translator.translate("booking_detail.header.booking_id"));
         headerMap.put(DbConstants.SEAT_ID, translator.translate("booking_detail.header.seat_id"));
+        headerMap.put(DbConstants.PASSENGER_NAME, translator.translate("booking_detail.header.passenger_name"));
+        headerMap.put(DbConstants.PASSENGER_AGE, translator.translate("booking_detail.header.passenger_age"));
+        headerMap.put(DbConstants.PASSENGER_GENDER, translator.translate("booking_detail.header.passenger_gender"));
         headerMap.put(DbConstants.FARE, translator.translate("booking_detail.header.fare"));
         headerMap.put(DbConstants.SEAT_NUMBER, translator.translate("booking_detail.header.seat_number"));
 
-        List<BookingDetail> bookingDetailList = bookingDetailController.getBookingDetailsByBookingId(bookingId);
+        String whereClause = realColumn + " LIKE ?";
+        String[] params = new String[] { "%" + searchValue + "%" };
+
+        List<BookingDetail> bookingDetailList = new ArrayList<>();
+        try {
+            bookingDetailList = bookingDetailController.getBookingDetailsBy(whereClause, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int toIndex = Math.min(offset + limit, bookingDetailList.size());
+        List<BookingDetail> pageList = bookingDetailList.subList(offset, toIndex);
 
         List<Map<String, Object>> bookingDetailData = new ArrayList<>();
-        for (BookingDetail detail : bookingDetailList) {
+        for (BookingDetail detail : pageList) {
             Map<String, Object> detailMap = new HashMap<>();
             detailMap.put(DbConstants.BOOKING_DETAIL_ID, detail.getBookingDetailId());
             detailMap.put(DbConstants.BOOKING_ID, detail.getBookingId());

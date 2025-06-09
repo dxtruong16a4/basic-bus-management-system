@@ -25,64 +25,6 @@ public class FareController {
         fareDAO = new FareDAO(dbConnect);
     }
 
-    public List<Fare> getAllFares() {
-        try {
-            return fareDAO.select(null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return List.of();
-        }
-    }
-
-    public Fare getFareBy(String whereClause, String[] params) {
-        try {
-            List<Fare> fares = fareDAO.select(whereClause, params);
-            return fares.isEmpty() ? null : fares.get(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public Map<String, String> getColumnDataTypes() {
-        try {
-            return DAO.getColumnDataTypes(fareDAO.getTableName());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Map.of();
-        }
-    }
-
-    public boolean addFare(Map<String, Object> data) {
-        try {
-            Fare fare = mapToFare(data);
-            return fareDAO.insert(fare);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean updateFare(Map<String, Object> data) {
-        try {
-            Fare fare = mapToFare(data);
-            return fareDAO.update(fare);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean deleteFare(Map<String, Object> data) {
-        try {
-            int fareId = (int) data.get("fare_id");
-            return fareDAO.delete(fareId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     private Fare mapToFare(Map<String, Object> data) {
         java.math.BigDecimal baseFare = null, taxes = null, serviceCharge = null;
         Object baseFareObj = data.get("base_fare");
@@ -127,6 +69,63 @@ public class FareController {
             serviceCharge,
             lastUpdated
         );
+    }
+
+    public boolean addFare(Map<String, Object> data) {
+        try {
+            Fare fare = mapToFare(data);
+            return fareDAO.insert(fare);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateFare(Map<String, Object> data) {
+        try {
+            Fare fare = mapToFare(data);
+            return fareDAO.update(fare);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteFare(Map<String, Object> data) {
+        try {
+            int fareId = (int) data.get("fare_id");
+            return fareDAO.delete(fareId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<Fare> getAllFares() {
+        try {
+            return fareDAO.select(null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    public List<Fare> getFaresBy(String whereClause, String[] params) {
+        try {
+            return fareDAO.select(whereClause, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    public Map<String, String> getColumnDataTypes() {
+        try {
+            return DAO.getColumnDataTypes(fareDAO.getTableName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Map.of();
+        }
     }
 
     public DbConnect getDbConnect() {

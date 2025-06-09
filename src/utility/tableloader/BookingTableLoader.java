@@ -81,10 +81,7 @@ public class BookingTableLoader {
 
         List<Booking> bookingList = new ArrayList<>();
         try {
-            Booking booking = bookingController.getBookingBy(whereClause, params);
-            if (booking != null) {
-                bookingList.add(booking);
-            }
+            bookingList = bookingController.getBookingsBy(whereClause, params);
         } catch (Exception e) {
             e.printStackTrace();
         }

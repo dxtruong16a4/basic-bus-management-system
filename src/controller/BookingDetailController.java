@@ -25,41 +25,17 @@ public class BookingDetailController {
         bookingDetailDAO = new BookingDetailDAO(dbConnect);
     }
 
-    public List<BookingDetail> getAllBookingDetails() {
-        try {
-            return bookingDetailDAO.select(null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return List.of();
-        }
-    }
-
-    public List<BookingDetail> getBookingDetailsByBookingId(int bookingId) {
-        try {
-            return bookingDetailDAO.select("booking_id = ?", new String[]{String.valueOf(bookingId)});
-        } catch (Exception e) {
-            e.printStackTrace();
-            return List.of();
-        }
-    }
-
-    public BookingDetail getBookingDetailBy(String whereClause, String[] params) {
-        try {
-            List<BookingDetail> details = bookingDetailDAO.select(whereClause, params);
-            return details.isEmpty() ? null : details.get(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public Map<String, String> getColumnDataTypes() {
-        try {
-            return DAO.getColumnDataTypes(bookingDetailDAO.getTableName());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Map.of();
-        }
+    private BookingDetail mapToBookingDetail(Map<String, Object> data) {
+        return new BookingDetail(
+            (int) data.get("booking_detail_id"),
+            (int) data.get("booking_id"),
+            (int) data.get("seat_id"),
+            (String) data.get("passenger_name"),
+            (int) data.get("passenger_age"),
+            (String) data.get("passenger_gender"),
+            data.get("fare") instanceof Number ? ((Number) data.get("fare")).doubleValue() : Double.parseDouble(data.get("fare").toString()),
+            (String) data.get("seat_number")
+        );
     }
 
     public boolean addBookingDetail(Map<String, Object> data) {
@@ -92,17 +68,31 @@ public class BookingDetailController {
         }
     }
 
-    private BookingDetail mapToBookingDetail(Map<String, Object> data) {
-        return new BookingDetail(
-            (int) data.get("booking_detail_id"),
-            (int) data.get("booking_id"),
-            (int) data.get("seat_id"),
-            (String) data.get("passenger_name"),
-            (int) data.get("passenger_age"),
-            (String) data.get("passenger_gender"),
-            data.get("fare") instanceof Number ? ((Number) data.get("fare")).doubleValue() : Double.parseDouble(data.get("fare").toString()),
-            (String) data.get("seat_number")
-        );
+    public List<BookingDetail> getAllBookingDetails() {
+        try {
+            return bookingDetailDAO.select(null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    public List<BookingDetail> getBookingDetailsBy(String whereClause, String[] params) {
+        try {
+            return bookingDetailDAO.select(whereClause, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    public Map<String, String> getColumnDataTypes() {
+        try {
+            return DAO.getColumnDataTypes(bookingDetailDAO.getTableName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Map.of();
+        }
     }
 
     public DbConnect getDbConnect() {

@@ -327,32 +327,31 @@ public class Manager extends javax.swing.JFrame {
             System.out.println("No search criteria provided.");
             return;
         }
-
         int offset = (currentPage - 1) * pageSize;
         if (mode.equals(translator.translate("db.table.bookings"))) {
             bookingTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
         }
-        // else if (mode.equals(translator.translate("db.table.booking_details"))) {
-        //     bookingDetailTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
-        // }
-        // else if (mode.equals(translator.translate("db.table.buses"))) {
-        //     busTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
-        // }
-        // else if (mode.equals(translator.translate("db.table.bus_operators"))) {
-        //     busOperatorTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
-        // }
-        // else if (mode.equals(translator.translate("db.table.routes"))) {
-        //     routeTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
-        // }
-        // else if (mode.equals(translator.translate("db.table.schedules"))) {
-        //     scheduleTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
-        // }
-        // else if (mode.equals(translator.translate("db.table.fares"))) {
-        //     fareTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
-        // }
-        // else if (mode.equals(translator.translate("db.table.seats"))) {
-        //     seatTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
-        // }
+        else if (mode.equals(translator.translate("db.table.booking_details"))) {
+            bookingDetailTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        }
+        else if (mode.equals(translator.translate("db.table.buses"))) {
+            busTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        }
+        else if (mode.equals(translator.translate("db.table.bus_operators"))) {
+            busOperatorTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        }
+        else if (mode.equals(translator.translate("db.table.routes"))) {
+            routeTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        }
+        else if (mode.equals(translator.translate("db.table.schedules"))) {
+            scheduleTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        }
+        else if (mode.equals(translator.translate("db.table.fares"))) {
+            fareTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        }
+        else if (mode.equals(translator.translate("db.table.seats"))) {
+            seatTableLoader.loadBy(tbDetail, searchBy, searchValue, offset, pageSize);
+        }
         else {
             System.out.println("Unknown mode: " + mode);
         }
@@ -967,8 +966,8 @@ public class Manager extends javax.swing.JFrame {
             System.out.println("No mode selected for editing.");
             return;
         }
-        showInputPanel(true);
         currentAction = "update";
+        showInputPanel(true);
         javax.swing.table.TableModel model = tbDetail.getModel();
         Map<String, String> columnTypes = getColumnTypesByMode(mode);
         for (int col = 0; col < model.getColumnCount(); col++) {

@@ -25,64 +25,6 @@ public class ScheduleController {
         scheduleDAO = new ScheduleDAO(dbConnect);
     }
 
-    public List<Schedule> getAllSchedules() {
-        try {
-            return scheduleDAO.select(null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return List.of();
-        }
-    }
-
-    public Schedule getScheduleBy(String whereClause, String[] params) {
-        try {
-            List<Schedule> schedules = scheduleDAO.select(whereClause, params);
-            return schedules.isEmpty() ? null : schedules.get(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public Map<String, String> getColumnDataTypes() {
-        try {
-            return DAO.getColumnDataTypes(scheduleDAO.getTableName());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Map.of();
-        }
-    }
-
-    public boolean addSchedule(Map<String, Object> data) {
-        try {
-            Schedule schedule = mapToSchedule(data);
-            return scheduleDAO.insert(schedule);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean updateSchedule(Map<String, Object> data) {
-        try {
-            Schedule schedule = mapToSchedule(data);
-            return scheduleDAO.update(schedule);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean deleteSchedule(Map<String, Object> data) {
-        try {
-            int scheduleId = (int) data.get("schedule_id");
-            return scheduleDAO.delete(scheduleId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     private Schedule mapToSchedule(Map<String, Object> data) {
         java.sql.Timestamp departureTime = null, arrivalTime = null, createdDate = null;
         Object departureTimeObj = data.get("departure_time");
@@ -119,6 +61,63 @@ public class ScheduleController {
             data.get("is_active") instanceof Boolean ? (Boolean) data.get("is_active") : Boolean.parseBoolean(data.get("is_active").toString()),
             createdDate
         );
+    }
+
+    public boolean addSchedule(Map<String, Object> data) {
+        try {
+            Schedule schedule = mapToSchedule(data);
+            return scheduleDAO.insert(schedule);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateSchedule(Map<String, Object> data) {
+        try {
+            Schedule schedule = mapToSchedule(data);
+            return scheduleDAO.update(schedule);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteSchedule(Map<String, Object> data) {
+        try {
+            int scheduleId = (int) data.get("schedule_id");
+            return scheduleDAO.delete(scheduleId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<Schedule> getAllSchedules() {
+        try {
+            return scheduleDAO.select(null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    public List<Schedule> getSchedulesBy(String whereClause, String[] params) {
+        try {
+            return scheduleDAO.select(whereClause, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    public Map<String, String> getColumnDataTypes() {
+        try {
+            return DAO.getColumnDataTypes(scheduleDAO.getTableName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Map.of();
+        }
     }
 
     public DbConnect getDbConnect() {

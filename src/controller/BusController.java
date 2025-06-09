@@ -26,32 +26,17 @@ public class BusController {
         busDAO = new BusDAO(dbConnect);
     }
 
-    public List<Bus> getAllBuses() {
-        try {
-            return busDAO.select(null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return List.of();
-        }
-    }
-
-    public Bus getBusBy(String whereClause, String[] params) {
-        try {
-            List<Bus> buses = busDAO.select(whereClause, params);
-            return buses.isEmpty() ? null : buses.get(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public Map<String, String> getColumnDataTypes() {
-        try {
-            return DAO.getColumnDataTypes(busDAO.getTableName());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Map.of();
-        }
+    private Bus mapToBus(Map<String, Object> data) {
+        return new Bus(
+            (int) data.get("bus_id"),
+            (String) data.get("bus_number"),
+            (String) data.get("bus_name"),
+            (String) data.get("bus_type"),
+            (int) data.get("total_seats"),
+            (int) data.get("operator_id"),
+            (String) data.get("registration_number"),
+            data.get("is_active") instanceof Boolean ? (Boolean) data.get("is_active") : Boolean.parseBoolean(data.get("is_active").toString())
+        );
     }
 
     public boolean addBus(Map<String, Object> data) {
@@ -84,17 +69,31 @@ public class BusController {
         }
     }
 
-    private Bus mapToBus(Map<String, Object> data) {
-        return new Bus(
-            (int) data.get("bus_id"),
-            (String) data.get("bus_number"),
-            (String) data.get("bus_name"),
-            (String) data.get("bus_type"),
-            (int) data.get("total_seats"),
-            (int) data.get("operator_id"),
-            (String) data.get("registration_number"),
-            data.get("is_active") instanceof Boolean ? (Boolean) data.get("is_active") : Boolean.parseBoolean(data.get("is_active").toString())
-        );
+    public List<Bus> getAllBuses() {
+        try {
+            return busDAO.select(null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    public List<Bus> getBusesBy(String whereClause, String[] params) {
+        try {
+            return busDAO.select(whereClause, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    public Map<String, String> getColumnDataTypes() {
+        try {
+            return DAO.getColumnDataTypes(busDAO.getTableName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Map.of();
+        }
     }
 
     public DbConnect getDbConnect() {
