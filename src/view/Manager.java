@@ -1003,19 +1003,7 @@ public class Manager extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNext5ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // close all controllers
-        try {
-            if (bookingController != null) bookingController.getDbConnect().Close();
-            if (bookingDetailController != null) bookingDetailController.getDbConnect().Close();
-            if (busController != null) busController.getDbConnect().Close();
-            if (busOperatorController != null) busOperatorController.getDbConnect().Close();
-            if (fareController != null) fareController.getDbConnect().Close();
-            if (routeController != null) routeController.getDbConnect().Close();
-            if (scheduleController != null) scheduleController.getDbConnect().Close();
-            if (seatController != null) seatController.getDbConnect().Close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        
     }//GEN-LAST:event_formWindowClosing
 
     /**

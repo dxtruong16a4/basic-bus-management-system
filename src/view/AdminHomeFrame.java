@@ -1,5 +1,7 @@
 package view;
 
+import utility.auth.UserManager;
+
 public class AdminHomeFrame extends javax.swing.JFrame {
 
     public static AdminHomeFrame instance = null;
@@ -139,7 +141,10 @@ public class AdminHomeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSettingsActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
-        
+        UserManager.getInstance().logout();
+        AdminHomeFrame.getInstance().dispose();
+        LoginFrame loginFrame = LoginFrame.getInstance();
+        loginFrame.setVisible(true);
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

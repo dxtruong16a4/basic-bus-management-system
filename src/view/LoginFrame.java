@@ -10,8 +10,16 @@ import utility.auth.Authentication;
 public class LoginFrame extends javax.swing.JFrame {
     AppTranslator translator = null;
     private SignUpFrame signUpFrame = null;
+    private static LoginFrame instance = null;
 
-    public LoginFrame() {
+    public static LoginFrame getInstance() {
+        if (instance == null || !instance.isDisplayable()) {
+            instance = new LoginFrame();
+        }
+        return instance;
+    }
+
+    private LoginFrame() {
         translator = AppTranslator.getInstance(Locale.getDefault());
         initComponents();
         setLocationRelativeTo(null);
@@ -166,9 +174,8 @@ public class LoginFrame extends javax.swing.JFrame {
                 translator.translate("login.error.title"), javax.swing.JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if (Authentication.login(username, password)) {      
-            UserManager userManager = UserManager.getInstance();
-            userManager.login(username, password);
+        UserManager userManager = UserManager.getInstance();
+        if (userManager.login(username, password)) {
             if (userManager.getCurrentUser() != null && userManager.getCurrentUser().getRole().equals("admin")) {
                 AdminHomeFrame adminHomeFrame = AdminHomeFrame.getInstance();
                 if (adminHomeFrame != null) {

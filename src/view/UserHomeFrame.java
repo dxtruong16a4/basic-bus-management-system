@@ -21,13 +21,23 @@ public class UserHomeFrame extends javax.swing.JFrame {
         return "Guest";
     }
 
+    public void updateWelcomeLabel() {
+        lbHomeWelcome.setText("Welcome, " + getUser() + "!");
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        updateWelcomeLabel();
+        super.setVisible(b);
+    }
+
     private UserHomeFrame() {
         initComponents();
         setLocationRelativeTo(null);
         pnHome.setVisible(true);
         pnNotifications.setVisible(false);
         pnSettings.setVisible(false);
-        lbHomeWelcome.setText("Welcome, " + getUser() + "!");
+        updateWelcomeLabel();
     }
 
     /**
@@ -303,6 +313,11 @@ public class UserHomeFrame extends javax.swing.JFrame {
         cbNotifCategory.setMaximumSize(new java.awt.Dimension(150, 40));
         cbNotifCategory.setMinimumSize(new java.awt.Dimension(150, 40));
         cbNotifCategory.setPreferredSize(new java.awt.Dimension(150, 40));
+        cbNotifCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbNotifCategoryActionPerformed(evt);
+            }
+        });
         pnNotifCategory.add(cbNotifCategory);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -345,6 +360,11 @@ public class UserHomeFrame extends javax.swing.JFrame {
         btnAccSetting.setMaximumSize(new java.awt.Dimension(200, 40));
         btnAccSetting.setMinimumSize(new java.awt.Dimension(200, 40));
         btnAccSetting.setPreferredSize(new java.awt.Dimension(200, 40));
+        btnAccSetting.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAccSettingActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         pnSettingButtons.add(btnAccSetting, gridBagConstraints);
@@ -354,6 +374,11 @@ public class UserHomeFrame extends javax.swing.JFrame {
         btnNotifSetting.setMaximumSize(new java.awt.Dimension(200, 40));
         btnNotifSetting.setMinimumSize(new java.awt.Dimension(200, 40));
         btnNotifSetting.setPreferredSize(new java.awt.Dimension(200, 40));
+        btnNotifSetting.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNotifSettingActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -365,6 +390,11 @@ public class UserHomeFrame extends javax.swing.JFrame {
         btnTravelPreSetting.setMaximumSize(new java.awt.Dimension(200, 40));
         btnTravelPreSetting.setMinimumSize(new java.awt.Dimension(200, 40));
         btnTravelPreSetting.setPreferredSize(new java.awt.Dimension(200, 40));
+        btnTravelPreSetting.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTravelPreSettingActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -376,6 +406,11 @@ public class UserHomeFrame extends javax.swing.JFrame {
         btnPaymentSetting.setMaximumSize(new java.awt.Dimension(200, 40));
         btnPaymentSetting.setMinimumSize(new java.awt.Dimension(200, 40));
         btnPaymentSetting.setPreferredSize(new java.awt.Dimension(200, 40));
+        btnPaymentSetting.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPaymentSettingActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -387,6 +422,11 @@ public class UserHomeFrame extends javax.swing.JFrame {
         btnLanguageSetting.setMaximumSize(new java.awt.Dimension(200, 40));
         btnLanguageSetting.setMinimumSize(new java.awt.Dimension(200, 40));
         btnLanguageSetting.setPreferredSize(new java.awt.Dimension(200, 40));
+        btnLanguageSetting.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLanguageSettingActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -398,6 +438,11 @@ public class UserHomeFrame extends javax.swing.JFrame {
         btnPrivacySetting.setMaximumSize(new java.awt.Dimension(200, 40));
         btnPrivacySetting.setMinimumSize(new java.awt.Dimension(200, 40));
         btnPrivacySetting.setPreferredSize(new java.awt.Dimension(200, 40));
+        btnPrivacySetting.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrivacySettingActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -409,6 +454,11 @@ public class UserHomeFrame extends javax.swing.JFrame {
         btnHelpSetting.setMaximumSize(new java.awt.Dimension(200, 40));
         btnHelpSetting.setMinimumSize(new java.awt.Dimension(200, 40));
         btnHelpSetting.setPreferredSize(new java.awt.Dimension(200, 40));
+        btnHelpSetting.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHelpSettingActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -507,7 +557,11 @@ public class UserHomeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBookingHistoryActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
-        
+        UserManager um = UserManager.getInstance();
+        um.logout();
+        this.dispose();
+        LoginFrame loginFrame = LoginFrame.getInstance();
+        loginFrame.setVisible(true);
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void lbAddPhotoProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAddPhotoProfileMouseClicked
@@ -517,6 +571,38 @@ public class UserHomeFrame extends javax.swing.JFrame {
     private void lbEditProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbEditProfileMouseClicked
         
     }//GEN-LAST:event_lbEditProfileMouseClicked
+
+    private void cbNotifCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbNotifCategoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbNotifCategoryActionPerformed
+
+    private void btnAccSettingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccSettingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAccSettingActionPerformed
+
+    private void btnNotifSettingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotifSettingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNotifSettingActionPerformed
+
+    private void btnTravelPreSettingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTravelPreSettingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTravelPreSettingActionPerformed
+
+    private void btnPaymentSettingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentSettingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPaymentSettingActionPerformed
+
+    private void btnLanguageSettingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLanguageSettingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLanguageSettingActionPerformed
+
+    private void btnPrivacySettingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrivacySettingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPrivacySettingActionPerformed
+
+    private void btnHelpSettingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpSettingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnHelpSettingActionPerformed
 
     /**
      * @param args the command line arguments
