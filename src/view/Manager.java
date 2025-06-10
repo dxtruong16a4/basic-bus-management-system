@@ -552,8 +552,8 @@ public class Manager extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manager");
         setMaximumSize(new java.awt.Dimension(1920, 1080));
-        setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setMinimumSize(new java.awt.Dimension(1200, 900));
+        setPreferredSize(new java.awt.Dimension(1200, 900));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -563,8 +563,8 @@ public class Manager extends javax.swing.JFrame {
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         pnManager.setMaximumSize(new java.awt.Dimension(1920, 1080));
-        pnManager.setMinimumSize(new java.awt.Dimension(780, 550));
-        pnManager.setPreferredSize(new java.awt.Dimension(780, 550));
+        pnManager.setMinimumSize(new java.awt.Dimension(1180, 780));
+        pnManager.setPreferredSize(new java.awt.Dimension(1180, 780));
 
         pnWorkspace.setMinimumSize(new java.awt.Dimension(720, 702));
         pnWorkspace.setLayout(new java.awt.GridBagLayout());
@@ -713,8 +713,9 @@ public class Manager extends javax.swing.JFrame {
         pnData.add(pnInput, gridBagConstraints);
 
         pnTable.setMinimumSize(new java.awt.Dimension(700, 10));
+        pnTable.setPreferredSize(new java.awt.Dimension(1100, 280));
 
-        spnTable.setPreferredSize(new java.awt.Dimension(700, 270));
+        spnTable.setPreferredSize(new java.awt.Dimension(1100, 270));
 
         tbDetail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tbDetail.setModel(new javax.swing.table.DefaultTableModel(
