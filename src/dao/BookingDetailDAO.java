@@ -107,8 +107,10 @@ public class BookingDetailDAO implements IBookingDetailDAO {
     public boolean update(final BookingDetail bookingDetail) throws SQLException, ClassNotFoundException {
         if (!checkConnection()) return false;
 
-        String query = String.format("UPDATE %s SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? WHERE %s = ?",
-                TABLE, BOOKING_ID, SEAT_ID, PASSENGER_NAME, PASSENGER_AGE, PASSENGER_GENDER, FARE, SEAT_NUMBER, ID);
+        String query = String.format(
+            "UPDATE %s SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? WHERE %s = ?",
+            TABLE, BOOKING_ID, SEAT_ID, PASSENGER_NAME, PASSENGER_AGE, PASSENGER_GENDER, FARE, SEAT_NUMBER, ID
+        );
 
         try (PreparedStatement pst = con.prepareStatement(query)) {
             pst.setInt(1, bookingDetail.getBookingId());
